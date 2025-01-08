@@ -1,9 +1,11 @@
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-import localFont from "next/font/local";
-import type { Metadata } from "next";
-import "./globals.css";
-import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "@/theme";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
+import Provider from "@/components/organisms/Provider";
+import Toast from "@/components/atoms/toast";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,12 +33,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <Provider>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <Toast />
+              {children}
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </Provider>
       </body>
     </html>
   );

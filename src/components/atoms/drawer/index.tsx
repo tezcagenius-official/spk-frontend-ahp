@@ -1,4 +1,4 @@
-import { drawerWidth } from "@/constants/ui";
+import { drawerWidth } from "@/constants/ui/index.constant";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 

@@ -14,7 +14,7 @@ export const postCreateSubKriteriaAPI = (body: ICreateSubKriteriaRequest) => {
 };
 
 export const getListSubKriteriaAPI = () => {
-  return satellite.get<IBaseAPIResponse<IGetListSubKriteriaResponse>>(
+  return satellite.get<IBaseAPIResponse<IGetListSubKriteriaResponse[]>>(
     `/api/sub-kriteria`
   );
 };

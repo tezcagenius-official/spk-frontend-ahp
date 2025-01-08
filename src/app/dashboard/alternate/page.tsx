@@ -1,7 +1,8 @@
+import AlternatePage from "@/components/organisms/Alternate";
 import React from "react";
 
 const page = () => {
-  return <div>Alternate</div>;
+  return <AlternatePage />;
 };
 
 export default page;

@@ -1,7 +1,8 @@
+import SubChriteriaPage from "@/components/organisms/SubChriteria";
 import React from "react";
 
 const page = () => {
-  return <div>Sub Chriteria</div>;
+  return <SubChriteriaPage />;
 };
 
 export default page;

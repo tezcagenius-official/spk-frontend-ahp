@@ -1,7 +1,8 @@
+import CompSubChriteriaPage from "@/components/organisms/Compare/SubChriteria";
 import React from "react";
 
 const page = () => {
-  return <div>Compare Sub Chriteria</div>;
+  return <CompSubChriteriaPage />;
 };
 
 export default page;

@@ -12,7 +12,7 @@ export const postCreateAlternatifAPI = (body: ICreateAlternatifRequest) => {
 };
 
 export const getListAlternatifAPI = () => {
-  return satellite.get<IBaseAPIResponse<IGetListAlternatifResponse>>(
+  return satellite.get<IBaseAPIResponse<IGetListAlternatifResponse[]>>(
     `/api/alternatif`
   );
 };

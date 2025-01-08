@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDetailKriteriaAPI, getListKriteriaAPI } from "./api";
 
-export const useGetListKriteria = () => {
+export const useGetListKriteria = (initfetch = true) => {
   return useQuery({
     queryKey: ["getListKriteria"],
     queryFn: () => getListKriteriaAPI().then((response) => response.data),
+    enabled: initfetch,
   });
 };
 

@@ -1,7 +1,8 @@
+import CompChriteriaPage from "@/components/organisms/Compare/Chriteria";
 import React from "react";
 
 const page = () => {
-  return <div>Compare Chriteria</div>;
+  return <CompChriteriaPage />;
 };
 
 export default page;

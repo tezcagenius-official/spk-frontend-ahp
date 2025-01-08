@@ -6,9 +6,8 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const tokenSession = cookies().get("token")?.value ?? null;
 
-  console.log(tokenSession);
   // if (tokenSession && pathname === "/")
-  //   return NextResponse.redirect(new URL("/home", request.url));
+  //   return NextResponse.redirect(new URL("/dashboard", request.url));
 
   // if (!tokenSession && pathname !== "/login")
   //   return NextResponse.redirect(new URL("/login", request.url));

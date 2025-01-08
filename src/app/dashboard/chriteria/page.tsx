@@ -1,7 +1,8 @@
+import ChriteriaPage from "@/components/organisms/Chriteria";
 import React from "react";
 
 const page = () => {
-  return <div>Chriteria</div>;
+  return <ChriteriaPage />;
 };
 
 export default page;
