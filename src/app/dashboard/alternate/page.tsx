@@ -1,24 +1,17 @@
 import AlternatePage from "@/components/organisms/Alternate";
-import { getListAlternatifAPI } from "@/services/user-alternatif/api";
-import { useGetListUserAlternatif } from "@/services/user-alternatif/query";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import React from "react";
+import { cookies } from "next/headers";
 
 const page = () => {
   const queryClient = new QueryClient();
-
-  // queryClient.prefetchQuery({
-  //   queryKey: [],
-  //   queryFn: getListAlternatifAPI,
-  // });
-
+  const role = cookies().get("role")?.value ?? "";
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AlternatePage />
+      <AlternatePage role={role} />
     </HydrationBoundary>
   );
 };

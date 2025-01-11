@@ -12,6 +12,7 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
   i,
   onValueChange,
   disableRemove = false,
+  disableAll = false,
 }) => {
   return (
     <div className="mt-3">
@@ -21,7 +22,7 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
           className="space-x-1"
           type="button"
           color="error"
-          disabled={disableRemove}
+          disabled={disableRemove || disableAll}
           onClick={() => onRemoveList?.()}
         >
           <FontAwesomeIcon icon={faEraser} />
@@ -39,6 +40,7 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
           value={dataSubKriteria?.data?.find(
             (dk) => dk.sub_kriteria_id === sub_kriteria1_id
           )}
+          disabled={disableAll}
           getOptionLabel={(option: any) => option.nama_sub_kriteria}
           renderInput={(params) => (
             <TextField
@@ -67,6 +69,7 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
           className="grow"
           size="small"
           options={dataSubKriteria?.data ?? []}
+          disabled={disableAll}
           isOptionEqualToValue={(option, value) =>
             option.sub_kriteria_id === value.sub_kriteria_id
           }
@@ -100,6 +103,7 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
           size="small"
           label="Nilai Perbandingan"
           type="number"
+          disabled={disableAll}
           key={id}
           {...register(`perbandingan.${i}.nilai_perbandingan`)}
         />

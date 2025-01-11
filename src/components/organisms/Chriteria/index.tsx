@@ -3,10 +3,6 @@ import Breadcrumb from "@/components/atoms/breadcrumb";
 import BaseModal from "@/components/atoms/modal";
 import { ChriteriaTable } from "@/components/molecules/tables/chriteria.table";
 import { chriteriaPageBreadcrumb } from "@/constants/breadcrumb/index.constant";
-import {
-  ICreateKriteriaRequest,
-  IUpdateKriteriaRequest,
-} from "@/interfaces/api/kriteria/mutate.interface";
 import { IFormChriteria } from "@/interfaces/page/chriteria/index.interface";
 import {
   useDeleteKriteria,
@@ -17,7 +13,8 @@ import { useGetListKriteria } from "@/services/kriteria/query";
 import { faRefresh, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, TextField } from "@mui/material";
-import React, { useState } from "react";
+import { useCookies } from "next-client-cookies";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -29,7 +26,7 @@ const ChriteriaPage = () => {
         type: "create",
       },
     });
-
+  const role = useCookies().get("role");
   const { data, refetch } = useGetListKriteria();
   const { mutate: handleCreate } = usePostCreateKriteria();
   const { mutate: handleUpdate } = usePatchUpdateKriteria();
@@ -110,10 +107,12 @@ const ChriteriaPage = () => {
               placeholder="Nama Kriteria"
               {...register("nama_kriteria")}
               size="small"
+              disabled={role === "adm"}
             />
             <Button
               type="submit"
               className="flex gap-2 justify-center items-center"
+              disabled={role === "adm"}
             >
               <FontAwesomeIcon icon={faSave} />
               <p>Save</p>
@@ -121,6 +120,7 @@ const ChriteriaPage = () => {
             <Button
               type="button"
               className="flex gap-2 justify-center items-center"
+              disabled={role === "adm"}
               onClick={() => {
                 reset();
               }}
@@ -144,6 +144,7 @@ const ChriteriaPage = () => {
             setValue("nama_kriteria", data.nama_kriteria ?? "");
             setValue("type", "update");
           }}
+          disableAll={role === "adm"}
         />
       </Card>
 

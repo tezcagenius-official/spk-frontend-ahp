@@ -9,8 +9,8 @@ export function middleware(request: NextRequest) {
   if (pathname === "/") {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
-  // if (!tokenSession && pathname !== "/login")
-  //   return NextResponse.redirect(new URL("/login", request.url));
+  if ((!tokenSession || tokenSession === "") && pathname !== "/login")
+    return NextResponse.redirect(new URL("/login", request.url));
 
   return NextResponse.next();
 }

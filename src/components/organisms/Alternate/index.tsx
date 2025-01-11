@@ -17,7 +17,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const AlternatePage = () => {
+const AlternatePage = ({ role }: { role: string }) => {
   const [activeModal, setActiveModal] = useState<string>("");
   const { register, handleSubmit, getValues, setValue, reset, watch } =
     useForm<IFormAlternatif>({
@@ -106,20 +106,28 @@ const AlternatePage = () => {
           >
             {watch("type") === "create" && <h2>Tambah alternate: </h2>}
             {watch("type") === "update" && <h2>Perbarui alternate: </h2>}
-            <TextField placeholder="Nama" {...register("nama")} size="small" />
+            <TextField
+              placeholder="Nama"
+              {...register("nama")}
+              size="small"
+              disabled={role !== "adm"}
+            />
             <TextField
               placeholder="Email"
               {...register("email")}
               size="small"
+              disabled={role !== "adm"}
             />
             <TextField
               placeholder="No. Telp"
               {...register("nomor_telpon")}
               size="small"
+              disabled={role !== "adm"}
             />
             <Button
               type="submit"
               className="flex gap-2 justify-center items-center"
+              disabled={role !== "adm"}
             >
               <FontAwesomeIcon icon={faSave} />
               <p>Save</p>
@@ -127,6 +135,7 @@ const AlternatePage = () => {
             <Button
               type="button"
               className="flex gap-2 justify-center items-center"
+              disabled={role !== "adm"}
               onClick={() => {
                 reset();
               }}

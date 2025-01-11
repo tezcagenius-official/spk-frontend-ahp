@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Provider from "@/components/organisms/Provider";
 import Toast from "@/components/atoms/toast";
+import { CookiesProvider } from "next-client-cookies/server";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,15 +34,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Provider>
-          <AppRouterCacheProvider>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <Toast />
-              {children}
-            </ThemeProvider>
-          </AppRouterCacheProvider>
-        </Provider>
+        <CookiesProvider>
+          <Provider>
+            <AppRouterCacheProvider>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Toast />
+                {children}
+              </ThemeProvider>
+            </AppRouterCacheProvider>
+          </Provider>
+        </CookiesProvider>
       </body>
     </html>
   );

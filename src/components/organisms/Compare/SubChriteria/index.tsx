@@ -11,12 +11,14 @@ import { useGetListSubKriteria } from "@/services/sub-kriteria/query";
 import { faAdd, faEraser, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Autocomplete, Button, Card, TextField } from "@mui/material";
+import { useCookies } from "next-client-cookies";
 import React, { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const CompSubChriteriaPage = () => {
   const [activeModal, setActiveModal] = useState<string>("");
+  const role = useCookies().get("role");
   const { handleSubmit, control, getValues, setValue, reset, watch, register } =
     useForm<ICreatePerbSubKriteriaRequest>({
       defaultValues: {
@@ -124,6 +126,7 @@ const CompSubChriteriaPage = () => {
               type="button"
               size="small"
               variant="contained"
+              disabled={role !== "adm"}
               onClick={() => {
                 append({
                   sub_kriteria1_id: 0,
@@ -139,6 +142,7 @@ const CompSubChriteriaPage = () => {
               className="space-x-1"
               type="button"
               size="small"
+              disabled={role !== "adm"}
               variant="outlined"
               onClick={() => reset()}
             >
@@ -149,6 +153,7 @@ const CompSubChriteriaPage = () => {
                 startIcon={<FontAwesomeIcon icon={faSave} />}
                 type="submit"
                 size="small"
+                disabled={role !== "adm"}
                 color="success"
                 variant="contained"
                 onClick={() => {}}
@@ -168,6 +173,7 @@ const CompSubChriteriaPage = () => {
                 onRemoveList={() => remove(i)}
                 dataSubKriteria={dataListSubKriteria}
                 disableRemove={fields.length === 1}
+                disableAll={role !== "adm"}
               />
             ))}
           </div>

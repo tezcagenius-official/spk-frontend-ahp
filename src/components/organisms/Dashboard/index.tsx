@@ -8,6 +8,7 @@ import {
   sidebarListCounter,
   sidebarListMain,
 } from "@/constants/navigation/index.constant";
+import { useLogoutUser } from "@/services/user/mutation";
 import {
   faBolt,
   faChevronLeft,
@@ -15,7 +16,7 @@ import {
   faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ListItem, ListItemButton, useTheme } from "@mui/material";
+import { Button, ListItem, ListItemButton, useTheme } from "@mui/material";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -28,20 +29,24 @@ import { useState } from "react";
 export const DashboardPage: React.FC<
   Readonly<{
     children: React.ReactNode;
+    role: string;
   }>
-> = ({ children }) => {
+> = ({ children, role }) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [modalOpened, setModalOpened] = useState<string>();
   const router = useRouter();
   const pathname = usePathname();
-
+  const { mutate: mutateLogout } = useLogoutUser();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleLogout = () => {
+    mutateLogout(undefined);
   };
 
   return (
@@ -63,8 +68,11 @@ export const DashboardPage: React.FC<
             >
               <FontAwesomeIcon size="1x" icon={faBolt} />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
+            <Typography className="grow" variant="h6" noWrap component="div">
               Dashboard SPK
+            </Typography>
+            <Typography variant="button" noWrap component="div">
+              {role === "adm" ? "admin" : "super admin"}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -181,7 +189,17 @@ export const DashboardPage: React.FC<
           setModalOpened(undefined);
         }}
       >
-        Test
+        <div>
+          <div>Apakah anda yakin untuk keluar?</div>
+          <div className="flex justify-end">
+            <Button onClick={() => setModalOpened(undefined)} color="error">
+              Batal
+            </Button>
+            <Button color="success" onClick={handleLogout}>
+              Keluar
+            </Button>
+          </div>
+        </div>
       </BaseModal>
     </>
   );

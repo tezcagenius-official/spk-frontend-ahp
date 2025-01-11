@@ -10,12 +10,14 @@ import { useGetCalcKriteria } from "@/services/perb-kriteria/query";
 import { faAdd, faEraser, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card } from "@mui/material";
+import { useCookies } from "next-client-cookies";
 import React, { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const CompChriteriaPage = () => {
   const [activeModal, setActiveModal] = useState<string>("");
+  const role = useCookies().get("role");
   const { handleSubmit, control, getValues, setValue, reset, watch, register } =
     useForm<ICreatePerbKriteriaRequest>({
       defaultValues: {
@@ -86,7 +88,7 @@ const CompChriteriaPage = () => {
           <div className="flex gap-2 mb-5">
             <Button
               startIcon={<FontAwesomeIcon icon={faAdd} />}
-              className="space-x-1"
+              className="h-10 space-x-1"
               type="button"
               size="small"
               variant="contained"
@@ -97,16 +99,18 @@ const CompChriteriaPage = () => {
                   nilai_perbandingan: undefined,
                 });
               }}
+              disabled={role !== "adm"}
             >
               Tambah data
             </Button>
             <Button
               startIcon={<FontAwesomeIcon icon={faEraser} />}
-              className="space-x-1"
+              className="h-10 space-x-1"
               type="button"
               size="small"
               variant="outlined"
               onClick={() => reset()}
+              disabled={role !== "adm"}
             >
               Reset data
             </Button>
@@ -115,9 +119,11 @@ const CompChriteriaPage = () => {
                 startIcon={<FontAwesomeIcon icon={faSave} />}
                 type="submit"
                 size="small"
+                className="h-10"
                 color="success"
                 variant="contained"
                 onClick={() => {}}
+                disabled={role !== "adm"}
               >
                 Upload
               </Button>
@@ -134,6 +140,7 @@ const CompChriteriaPage = () => {
                 onRemoveList={() => remove(i)}
                 datakriteria={dataListKriteria}
                 disableRemove={fields.length === 1}
+                disableAll={role !== "adm"}
               />
             ))}
           </div>

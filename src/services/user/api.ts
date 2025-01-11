@@ -5,9 +5,21 @@ import {
   ILoginRequest,
   ILoginResponse,
 } from "@/interfaces/api/auth/query.interface";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const loginAPI = (body: ILoginRequest) => {
   return satellite
     .post<IBaseAPIResponse<ILoginResponse>>(`/api/auth/login`, body)
-    .then((r) => r.data);
+    .then((r) => {
+      cookies().set("token", r?.data?.data?.token ?? "");
+      cookies().set("role", r?.data?.data?.users.role ?? "");
+      return r.data;
+    });
+};
+
+export const logout = () => {
+  cookies().delete("token");
+  cookies().delete("role");
+  redirect("/login");
 };

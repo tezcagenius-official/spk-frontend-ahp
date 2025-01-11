@@ -23,6 +23,7 @@ export const ChriteriaTable: React.FC<IChriteriaParams> = ({
   data,
   onDeleteData,
   onEditData,
+  disableAll = false,
 }) => {
   const columnHelper = createColumnHelper<IGetListKriteriaResponse>();
 
@@ -43,12 +44,14 @@ export const ChriteriaTable: React.FC<IChriteriaParams> = ({
           return (
             <div className="flex items-center justify-center gap-3">
               <IconButton
+                disabled={disableAll}
                 color="primary"
                 onClick={() => onEditData?.(row.original)}
               >
                 <FontAwesomeIcon size="sm" icon={faEdit} />
               </IconButton>
               <IconButton
+                disabled={disableAll}
                 color="error"
                 onClick={() => onDeleteData?.(row.original)}
               >

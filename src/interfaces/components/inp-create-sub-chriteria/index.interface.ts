@@ -13,4 +13,5 @@ export interface IInpCompSubChriteriaParams {
     data: FieldArrayWithId<ICreatePerbSubKriteriaRequest, "perbandingan", "id">
   ) => void;
   onRemoveList?: () => void;
+  disableAll?: boolean;
 }

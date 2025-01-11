@@ -18,6 +18,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { useCookies } from "next-client-cookies";
 
 const AlternatifTable: React.FC<IAlternatifParams> = ({
   data,
@@ -25,7 +26,7 @@ const AlternatifTable: React.FC<IAlternatifParams> = ({
   onEditData,
 }) => {
   const columnHelper = createColumnHelper<IGetListAlternatifResponse>();
-
+  const role = useCookies().get("role");
   const initialColumns = useMemo(() => {
     const baseColumn = [
       columnHelper.accessor("alternatif_id", {
@@ -53,12 +54,14 @@ const AlternatifTable: React.FC<IAlternatifParams> = ({
               <IconButton
                 color="primary"
                 onClick={() => onEditData?.(row.original)}
+                disabled={role !== "adm"}
               >
                 <FontAwesomeIcon size="sm" icon={faEdit} />
               </IconButton>
               <IconButton
                 color="error"
                 onClick={() => onDeleteData?.(row.original)}
+                disabled={role !== "adm"}
               >
                 <FontAwesomeIcon size="sm" icon={faTrash} />
               </IconButton>

@@ -5,4 +5,9 @@ export interface ILoginRequest {
 
 export interface ILoginResponse {
   token: string;
+  users: {
+    user_id: string;
+    username: string;
+    role: string;
+  };
 }

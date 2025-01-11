@@ -1,7 +1,7 @@
 import { IInpCompChriteriaParams } from "@/interfaces/components/inp-create-chriteria/index.interface";
 import { faEraser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Autocomplete, IconButton, Input, TextField } from "@mui/material";
+import { Autocomplete, IconButton, TextField } from "@mui/material";
 import React from "react";
 
 const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
@@ -11,17 +11,24 @@ const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
   register,
   i,
   onValueChange,
+  disableAll = false,
   disableRemove = false,
 }) => {
   return (
     <div className="mt-3">
       <div className="flex gap-2 items-center mb-1">
-        <h2 className="text-xl font-semibold">Kriteria {i + 1}</h2>
+        <h2
+          className={`text-xl font-semibold ${
+            disableAll && "text-neutral-500"
+          }`}
+        >
+          Kriteria {i + 1}
+        </h2>
         <IconButton
           className="space-x-1"
           type="button"
           color="error"
-          disabled={disableRemove}
+          disabled={disableRemove || disableAll}
           onClick={() => onRemoveList?.()}
         >
           <FontAwesomeIcon icon={faEraser} />
@@ -32,6 +39,7 @@ const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
           {...register(`perbandingan.${i}.kriteria1_id`)}
           className="grow"
           size="small"
+          disabled={disableAll}
           options={datakriteria?.data ?? []}
           isOptionEqualToValue={(option, value) =>
             option.kriteria_id === value.kriteria_id
@@ -66,6 +74,7 @@ const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
           {...register(`perbandingan.${i}.kriteria2_id`)}
           className="grow"
           size="small"
+          disabled={disableAll}
           options={datakriteria?.data ?? []}
           isOptionEqualToValue={(option, value) =>
             option.kriteria_id === value.kriteria_id
@@ -97,6 +106,7 @@ const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
           }}
         />
         <TextField
+          disabled={disableAll}
           size="small"
           label="Nilai Perbandingan"
           type="number"
