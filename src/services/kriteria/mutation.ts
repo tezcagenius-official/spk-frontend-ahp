@@ -13,7 +13,7 @@ export const usePostCreateKriteria = () => {
   return useMutation({
     mutationKey: ["createKriteria"],
     mutationFn: (data: ICreateKriteriaRequest) =>
-      postCreateKriteriaAPI(data).then((res) => res.data),
+      postCreateKriteriaAPI(data).then((res) => res),
   });
 };
 
@@ -21,13 +21,13 @@ export const usePatchUpdateKriteria = () => {
   return useMutation({
     mutationKey: ["updateKriteria"],
     mutationFn: ({ body, id }: { body: IUpdateKriteriaRequest; id: number }) =>
-      patchUpdateKriteriaAPI(body, id).then((res) => res.data),
+      patchUpdateKriteriaAPI(body, id).then((res) => res),
   });
 };
 
 export const useDeleteKriteria = () => {
   return useMutation({
     mutationKey: ["deleteKriteria"],
-    mutationFn: (id: number) => deleteKriteriaAPI(id).then((res) => res.data),
+    mutationFn: (id: number) => deleteKriteriaAPI(id).then((res) => res),
   });
 };

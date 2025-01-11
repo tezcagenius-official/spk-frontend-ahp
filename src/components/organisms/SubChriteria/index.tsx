@@ -24,6 +24,7 @@ const SubChriteriaPage = () => {
   const { register, handleSubmit, getValues, setValue, reset, watch } =
     useForm<IFormSubChriteria>({
       defaultValues: {
+        kriteria_id: undefined,
         type: "create",
       },
     });
@@ -35,9 +36,9 @@ const SubChriteriaPage = () => {
   const { mutate: handleDelete } = useDeleteSubKriteria();
 
   const handleError = (err: any) => {
-    toast.error(
-      err.response.data.message ?? err.message ?? "Failed to do some jobs!"
-    );
+    const { message } = JSON.parse(err?.message ?? "Failed to do some jobs!");
+    if (Array.isArray(message)) message.forEach((m) => toast.error(m));
+    toast.error(message);
     setActiveModal("");
   };
 
@@ -115,12 +116,8 @@ const SubChriteriaPage = () => {
             {watch("type") === "create" && (
               <Autocomplete
                 {...register("kriteria_id")}
-                className="w-44"
+                className="w-60"
                 size="small"
-                freeSolo
-                value={dataKriteria?.data?.find(
-                  (d) => d.kriteria_id === getValues("kriteria_id")
-                )}
                 options={dataKriteria?.data ?? []}
                 isOptionEqualToValue={(option, value) =>
                   option.kriteria_id === value.kriteria_id
@@ -129,7 +126,7 @@ const SubChriteriaPage = () => {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Search input"
+                    label="Kriteria"
                     slotProps={{
                       input: {
                         ...params.InputProps,
@@ -139,7 +136,7 @@ const SubChriteriaPage = () => {
                   />
                 )}
                 onChange={(_, value: any) => {
-                  if (!value.kriteria)
+                  if (value && value.kriteria)
                     setValue("kriteria_id", value?.kriteria_id);
                 }}
               />
@@ -168,8 +165,6 @@ const SubChriteriaPage = () => {
         <SubChriteriaTable
           data={data?.data ?? []}
           onDeleteData={(data) => {
-            setValue("kriteria_id", data.kriteria_id);
-            setValue("nama_sub_kriteria", data.nama_sub_kriteria ?? "");
             setValue("sub_kriteria_id", data.sub_kriteria_id ?? "");
             setActiveModal("modal-delete");
           }}

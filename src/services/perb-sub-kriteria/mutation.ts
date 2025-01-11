@@ -6,6 +6,6 @@ export const usePostCreatePerbSubKriteria = () => {
   return useMutation({
     mutationKey: ["createPerbSubKriteria"],
     mutationFn: (data: ICreatePerbSubKriteriaRequest) =>
-      postCreateSubPerbandinganAPI(data).then((res) => res.data),
+      postCreateSubPerbandinganAPI(data).then((res) => res),
   });
 };

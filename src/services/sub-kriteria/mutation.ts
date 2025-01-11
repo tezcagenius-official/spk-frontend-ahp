@@ -13,7 +13,7 @@ export const usePostCreateSubKriteria = () => {
   return useMutation({
     mutationKey: ["createSubKriteria"],
     mutationFn: (data: ICreateSubKriteriaRequest) =>
-      postCreateSubKriteriaAPI(data).then((res) => res.data),
+      postCreateSubKriteriaAPI(data).then((res) => res),
   });
 };
 
@@ -26,14 +26,13 @@ export const usePatchUpdateSubKriteria = () => {
     }: {
       body: IUpdateSubKriteriaRequest;
       id: number;
-    }) => patchUpdateSubKriteriaAPI(body, id).then((res) => res.data),
+    }) => patchUpdateSubKriteriaAPI(body, id).then((res) => res),
   });
 };
 
 export const useDeleteSubKriteria = () => {
   return useMutation({
     mutationKey: ["deleteSubKriteria"],
-    mutationFn: (id: number) =>
-      deleteSubKriteriaAPI(id).then((res) => res.data),
+    mutationFn: (id: number) => deleteSubKriteriaAPI(id).then((res) => res),
   });
 };

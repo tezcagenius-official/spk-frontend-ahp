@@ -31,10 +31,10 @@ const AlternatePage = () => {
   const { mutate: handleUpdate } = useUpdateAlternatif();
   const { mutate: handleDelete } = useDeleteAlternatif();
 
-  const handleError = (err: any) => {
-    toast.error(
-      err.response.data.message ?? err.message ?? "Failed to do some jobs!"
-    );
+  const handleError = (err: Error) => {
+    const { message } = JSON.parse(err?.message ?? "Failed to do some jobs!");
+    if (Array.isArray(message)) message.forEach((m) => toast.error(m));
+    toast.error(message);
     setActiveModal("");
   };
 
@@ -46,7 +46,7 @@ const AlternatePage = () => {
         onError: handleError,
         onSuccess: (res) => {
           refetch();
-          toast.success(res.message);
+          toast.success(res.data.message);
           reset();
           setActiveModal("");
         },

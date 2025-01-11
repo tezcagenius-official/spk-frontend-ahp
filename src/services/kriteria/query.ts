@@ -4,7 +4,7 @@ import { getDetailKriteriaAPI, getListKriteriaAPI } from "./api";
 export const useGetListKriteria = (initfetch = true) => {
   return useQuery({
     queryKey: ["getListKriteria"],
-    queryFn: () => getListKriteriaAPI().then((response) => response.data),
+    queryFn: () => getListKriteriaAPI().then((response) => response),
     enabled: initfetch,
   });
 };
@@ -12,6 +12,6 @@ export const useGetListKriteria = (initfetch = true) => {
 export const useGetDetailKriteriaAPI = (id: number) => {
   return useQuery({
     queryKey: ["getDetailKriteria"],
-    queryFn: () => getDetailKriteriaAPI(id).then((response) => response.data),
+    queryFn: () => getDetailKriteriaAPI(id).then((response) => response),
   });
 };

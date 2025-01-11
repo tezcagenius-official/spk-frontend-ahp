@@ -36,9 +36,9 @@ const ChriteriaPage = () => {
   const { mutate: handleDelete } = useDeleteKriteria();
 
   const handleError = (err: any) => {
-    toast.error(
-      err.response.data.message ?? err.message ?? "Failed to do some jobs!"
-    );
+    const { message } = JSON.parse(err?.message ?? "Failed to do some jobs!");
+    if (Array.isArray(message)) message.forEach((m) => toast.error(m));
+    toast.error(message);
     setActiveModal("");
   };
 

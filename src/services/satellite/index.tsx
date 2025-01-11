@@ -8,7 +8,15 @@ const satellite = axios.create({
 
 satellite.interceptors.response.use(
   (res) => res,
-  (err) => Promise.reject(err)
+  (err) => {
+    return Promise.reject(
+      new Error(
+        JSON.stringify(
+          err?.response?.data ?? { message: err.message ?? "Request failed" }
+        )
+      )
+    );
+  }
 );
 
 export default satellite;

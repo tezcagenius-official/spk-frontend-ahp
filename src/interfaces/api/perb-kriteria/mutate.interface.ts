@@ -3,7 +3,7 @@ export interface ICreatePerbKriteriaRequest {
 }
 
 export interface ICreatePerbKritList {
-  kriteria1_id: number;
-  kriteria2_id: number;
-  nilai_perbandingan: number;
+  kriteria1_id: number | undefined;
+  kriteria2_id: number | undefined;
+  nilai_perbandingan: number | undefined;
 }

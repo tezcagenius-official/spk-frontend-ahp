@@ -10,7 +10,7 @@ export const useCreateAlternatif = () => {
   return useMutation({
     mutationKey: ["createAlternatif"],
     mutationFn: (body: ICreateAlternatifRequest) =>
-      postCreateAlternatifAPI(body).then((res) => res.data),
+      postCreateAlternatifAPI(body).then((res) => res),
   });
 };
 
@@ -23,13 +23,13 @@ export const useUpdateAlternatif = () => {
     }: {
       body: ICreateAlternatifRequest;
       id: number;
-    }) => patchUpdateAlternatifAPI(body, id).then((res) => res.data),
+    }) => patchUpdateAlternatifAPI(body, id).then((res) => res),
   });
 };
 
 export const useDeleteAlternatif = () => {
   return useMutation({
     mutationKey: ["deleteAlternatif"],
-    mutationFn: (id: number) => deleteAlternatifAPI(id).then((res) => res.data),
+    mutationFn: (id: number) => deleteAlternatifAPI(id).then((res) => res),
   });
 };

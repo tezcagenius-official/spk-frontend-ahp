@@ -4,6 +4,6 @@ import { getCalcKriteriaAPI } from "./api";
 export const useGetCalcKriteria = () => {
   return useQuery({
     queryKey: ["getCalcKriteria"],
-    queryFn: () => getCalcKriteriaAPI().then((response) => response.data),
+    queryFn: () => getCalcKriteriaAPI().then((response) => response),
   });
 };
