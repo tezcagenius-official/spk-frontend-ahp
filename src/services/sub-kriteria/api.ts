@@ -10,37 +10,37 @@ import {
   IGetSubKriteriaDetailResponse,
 } from "@/interfaces/api/sub-kriteria/query.interface";
 
-export const postCreateSubKriteriaAPI = (body: ICreateSubKriteriaRequest) => {
-  return satellite
+export const postCreateSubKriteriaAPI = async (body: ICreateSubKriteriaRequest) => {
+  return await satellite
     .post<IBaseAPIResponse>(`/api/sub-kriteria`, body)
     .then((r) => r.data);
 };
 
-export const getListSubKriteriaAPI = () => {
-  return satellite
+export const getListSubKriteriaAPI = async () => {
+  return await satellite
     .get<IBaseAPIResponse<IGetListSubKriteriaResponse[]>>(`/api/sub-kriteria`)
     .then((r) => r.data);
 };
 
-export const getDetailSubKriteriaAPI = (id: number) => {
-  return satellite
+export const getDetailSubKriteriaAPI = async (id: number) => {
+  return await satellite
     .get<IBaseAPIResponse<IGetSubKriteriaDetailResponse>>(
       `/api/sub-kriteria/${id}`
     )
     .then((r) => r.data);
 };
 
-export const patchUpdateSubKriteriaAPI = (
+export const patchUpdateSubKriteriaAPI = async (
   body: IUpdateSubKriteriaRequest,
   id: number
 ) => {
-  return satellite
+  return await satellite
     .patch<IBaseAPIResponse>(`/api/sub-kriteria/${id}`, body)
     .then((r) => r.data);
 };
 
-export const deleteSubKriteriaAPI = (id: number) => {
-  return satellite
+export const deleteSubKriteriaAPI = async (id: number) => {
+  return await satellite
     .delete<IBaseAPIResponse>(`/api/sub-kriteria/${id}`)
     .then((r) => r.data);
 };

@@ -10,35 +10,35 @@ import {
   IGetListKriteriaResponse,
 } from "@/interfaces/api/kriteria/query.interface";
 
-export const postCreateKriteriaAPI = (body: ICreateKriteriaRequest) => {
-  return satellite
+export const postCreateKriteriaAPI = async (body: ICreateKriteriaRequest) => {
+  return await satellite
     .post<IBaseAPIResponse>("/api/criteria", body)
     .then((r) => r.data);
 };
 
-export const patchUpdateKriteriaAPI = (
+export const patchUpdateKriteriaAPI = async (
   body: IUpdateKriteriaRequest,
   id: number
 ) => {
-  return satellite
+  return await satellite
     .patch<IBaseAPIResponse>(`/api/criteria/${id}`, body)
     .then((r) => r.data);
 };
 
-export const deleteKriteriaAPI = (id: number) => {
-  return satellite
+export const deleteKriteriaAPI = async (id: number) => {
+  return await satellite
     .delete<IBaseAPIResponse>(`/api/criteria/${id}`)
     .then((r) => r.data);
 };
 
-export const getListKriteriaAPI = () => {
-  return satellite
+export const getListKriteriaAPI = async () => {
+  return await satellite
     .get<IBaseAPIResponse<IGetListKriteriaResponse[]>>(`/api/criteria`)
     .then((r) => r.data);
 };
 
-export const getDetailKriteriaAPI = (id: number) => {
-  return satellite
+export const getDetailKriteriaAPI = async (id: number) => {
+  return await satellite
     .get<IBaseAPIResponse<IGetKriteriaDetailResponse>>(`/api/criteria/${id}`)
     .then((r) => r.data);
 };

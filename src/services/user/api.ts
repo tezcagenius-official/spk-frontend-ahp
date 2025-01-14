@@ -8,8 +8,8 @@ import {
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const loginAPI = (body: ILoginRequest) => {
-  return satellite
+export const loginAPI = async (body: ILoginRequest) => {
+  return await satellite
     .post<IBaseAPIResponse<ILoginResponse>>(`/api/auth/login`, body)
     .then((r) => {
       cookies().set("token", r?.data?.data?.token ?? "");
@@ -18,7 +18,7 @@ export const loginAPI = (body: ILoginRequest) => {
     });
 };
 
-export const logout = () => {
+export const logout = async () => {
   cookies().delete("token");
   cookies().delete("role");
   redirect("/login");
