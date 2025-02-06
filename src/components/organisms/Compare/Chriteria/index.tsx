@@ -2,6 +2,9 @@
 import Breadcrumb from "@/components/atoms/breadcrumb";
 import BaseModal from "@/components/atoms/modal";
 import InpCompChriteria from "@/components/molecules/inp-comp-chriteria";
+import TableMatrixPerbChriteriaNorm from "@/components/molecules/tables/matriks/perb-chriteria-norm.table";
+import TableMatrixPerbChriteria from "@/components/molecules/tables/matriks/perb-chriteria.table";
+import TableTambahan from "@/components/molecules/tables/tambahan.table";
 import { compChriteriaBreadcrumb } from "@/constants/breadcrumb/index.constant";
 import { ICreatePerbKriteriaRequest } from "@/interfaces/api/perb-kriteria/mutate.interface";
 import { useGetListKriteria } from "@/services/kriteria/query";
@@ -9,7 +12,7 @@ import { usePostCreatePerbKriteria } from "@/services/perb-kriteria/mutation";
 import { useGetCalcKriteria } from "@/services/perb-kriteria/query";
 import { faAdd, faEraser, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Card } from "@mui/material";
+import { Button, Card, Typography } from "@mui/material";
 import { useCookies } from "next-client-cookies";
 import React, { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -47,6 +50,7 @@ const CompChriteriaPage = () => {
   const { mutate } = usePostCreatePerbKriteria();
   const { data: dataCalcKriteria, refetch: refetchCalcKriteria } =
     useGetCalcKriteria();
+  const { data: dataKriteria, refetch: refetchKriteria } = useGetListKriteria();
 
   const onCreateKriteria = () => {
     const data = getValues().perbandingan.map((p) => ({
@@ -147,8 +151,36 @@ const CompChriteriaPage = () => {
         </form>
       </Card>
 
-      <div>
-        <pre>{JSON.stringify(dataCalcKriteria, null, 2)}</pre>
+      <div className="space-y-2">
+        <Typography variant="h5" className="!font-bold">
+          Matrix
+        </Typography>
+        <TableMatrixPerbChriteria
+          data={dataCalcKriteria?.data?.matriks ?? []}
+          header={dataKriteria?.data ?? []}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Typography variant="h5" className="!font-bold">
+          Matrix Normalisasi
+        </Typography>
+        <TableMatrixPerbChriteriaNorm
+          data={dataCalcKriteria?.data?.matriksNormalisasi ?? []}
+          prioritas={dataCalcKriteria?.data?.prioritas ?? []}
+          header={dataKriteria?.data ?? []}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Typography variant="h5" className="!font-bold">
+          Data Tambahan
+        </Typography>
+        <TableTambahan
+          ci={dataCalcKriteria?.data?.CI ?? 0}
+          cr={dataCalcKriteria?.data?.CR ?? 0}
+          ri={dataCalcKriteria?.data?.RI ?? 0}
+        />
       </div>
 
       <BaseModal

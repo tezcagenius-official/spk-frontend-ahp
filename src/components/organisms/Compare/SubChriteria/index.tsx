@@ -2,6 +2,9 @@
 import Breadcrumb from "@/components/atoms/breadcrumb";
 import BaseModal from "@/components/atoms/modal";
 import InpCompSubChriteria from "@/components/molecules/inp-comp-sub-chriteria";
+import TableMatrixPerbSubChriteriaNorm from "@/components/molecules/tables/matriks/perb-sub-chriteria-norm.table";
+import TableMatrixPerbSubChriteria from "@/components/molecules/tables/matriks/perb-sub-chriteria.table";
+import TableTambahan from "@/components/molecules/tables/tambahan.table";
 import { compSubChriteriaBreadcrumb } from "@/constants/breadcrumb/index.constant";
 import { ICreatePerbSubKriteriaRequest } from "@/interfaces/api/perb-sub-kriteria/mutate.interface";
 import { useGetListKriteria } from "@/services/kriteria/query";
@@ -10,7 +13,13 @@ import { useGetCalcSubKriteria } from "@/services/perb-sub-kriteria/query";
 import { useGetListSubKriteria } from "@/services/sub-kriteria/query";
 import { faAdd, faEraser, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Autocomplete, Button, Card, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  Card,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useCookies } from "next-client-cookies";
 import React, { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -180,8 +189,36 @@ const CompSubChriteriaPage = () => {
         </form>
       </Card>
 
-      <div>
-        <pre>{JSON.stringify(dataCalcKriteria, null, 2)}</pre>
+      <div className="space-y-2">
+        <Typography variant="h5" className="!font-bold">
+          Matrix
+        </Typography>
+        <TableMatrixPerbSubChriteria
+          data={dataCalcKriteria?.data?.matriks ?? []}
+          header={dataListSubKriteria?.data ?? []}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Typography variant="h5" className="!font-bold">
+          Matrix Normalisasi
+        </Typography>
+        <TableMatrixPerbSubChriteriaNorm
+          data={dataCalcKriteria?.data?.matriksNormalisasi ?? []}
+          prioritas={dataCalcKriteria?.data?.prioritas ?? []}
+          header={dataListSubKriteria?.data ?? []}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Typography variant="h5" className="!font-bold">
+          Data Tambahan
+        </Typography>
+        <TableTambahan
+          ci={dataCalcKriteria?.data?.CI ?? 0}
+          cr={dataCalcKriteria?.data?.CR ?? 0}
+          ri={dataCalcKriteria?.data?.RI ?? 0}
+        />
       </div>
 
       <BaseModal
