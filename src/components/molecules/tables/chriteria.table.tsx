@@ -103,6 +103,14 @@ export const ChriteriaTable: React.FC<IChriteriaParams> = ({
               ))}
             </TableRow>
           ))}
+          {table.getRowModel().rows.length === 0 && (
+            <TableRow
+              className="text-center"
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              No data provided
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </TableContainer>

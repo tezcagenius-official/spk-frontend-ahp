@@ -3,16 +3,17 @@ import {
   ICreateAlternatifRequest,
   IUpdateAlternatifRequest,
 } from "@/interfaces/api/alternatif/mutate.interface";
-import { IBaseAPIResponse } from "@/interfaces/global/api.interface";
-import satellite from "../satellite";
 import { IGetListAlternatifResponse } from "@/interfaces/api/alternatif/query.interface";
 import { IGetKriteriaDetailResponse } from "@/interfaces/api/kriteria/query.interface";
-import { env } from "@/config";
+import { IBaseAPIResponse } from "@/interfaces/global/api.interface";
+import satellite from "../satellite";
 
 export const postCreateAlternatifAPI = async (
   body: ICreateAlternatifRequest
 ) => {
-  return await satellite.post<IBaseAPIResponse>(`/api/alternatif`, body);
+  return await satellite
+    .post<IBaseAPIResponse>(`/api/alternatif`, body)
+    .then((r) => r.data);
 };
 
 export const getListAlternatifAPI = async () => {

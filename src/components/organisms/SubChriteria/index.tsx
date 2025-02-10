@@ -44,6 +44,8 @@ const SubChriteriaPage = () => {
 
   const onCreateSubKriteria = () => {
     const { kriteria_id, nama_sub_kriteria } = getValues();
+    console.log(kriteria_id);
+    console.log(nama_sub_kriteria);
     handleCreate(
       { kriteria_id, nama_sub_kriteria },
       {
@@ -122,6 +124,11 @@ const SubChriteriaPage = () => {
                 isOptionEqualToValue={(option, value) =>
                   option.kriteria_id === value.kriteria_id
                 }
+                inputValue={
+                  dataKriteria?.data?.find(
+                    (k) => k.kriteria_id === (getValues("kriteria_id") ?? 0)
+                  )?.nama_kriteria ?? undefined
+                }
                 getOptionLabel={(option: any) => option.nama_kriteria}
                 renderInput={(params) => (
                   <TextField
@@ -136,7 +143,7 @@ const SubChriteriaPage = () => {
                   />
                 )}
                 onChange={(_, value: any) => {
-                  if (value && value.kriteria)
+                  if (value && value.kriteria_id)
                     setValue("kriteria_id", value?.kriteria_id);
                 }}
               />

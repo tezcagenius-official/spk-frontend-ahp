@@ -52,3 +52,40 @@ export const compSubChriteriaBreadcrumb = [
     link: null,
   },
 ];
+
+export const compConsidBreadcrumb = [
+  {
+    name: "Dashboard",
+    link: "/dashboard",
+  },
+  {
+    name: "Consideration",
+    link: null,
+  },
+];
+
+export const compUserBreadcrumb = [
+  {
+    name: "Dashboard",
+    link: "/dashboard",
+  },
+  {
+    name: "User",
+    link: null,
+  },
+];
+
+export const compDetailConsidBreadcrumb = [
+  {
+    name: "Dashboard",
+    link: "/dashboard",
+  },
+  {
+    name: "Alternate",
+    link: "/dashboard/alternate",
+  },
+  {
+    name: "Detail",
+    link: null,
+  },
+];

@@ -1,15 +1,17 @@
-import { IGetListAlternatifResponse } from "@/interfaces/api/alternatif/query.interface";
-import { IAlternatifParams } from "@/interfaces/components/tables/alternatif.interface";
-import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { IGetListUserResonse } from "@/interfaces/api/user/query.interface";
+import { IUserTableParams } from "@/interfaces/components/tables/user.interface";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconButton } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import {
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import {
   createColumnHelper,
   flexRender,
@@ -17,35 +19,30 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
 import { useCookies } from "next-client-cookies";
-import { useRouter } from "next/navigation";
+import React, { useMemo } from "react";
 
-const AlternatifTable: React.FC<IAlternatifParams> = ({
+const UserTable: React.FC<IUserTableParams> = ({
   data,
   onDeleteData,
   onEditData,
 }) => {
-  const router = useRouter();
-  const columnHelper = createColumnHelper<IGetListAlternatifResponse>();
+  const columnHelper = createColumnHelper<IGetListUserResonse>();
   const role = useCookies().get("role");
   const initialColumns = useMemo(() => {
     const baseColumn = [
-      columnHelper.accessor("alternatif_id", {
+      columnHelper.accessor("user_id", {
         cell: (info) => info.getValue(),
-        header: "ID Alternatif",
+        header: "ID User",
       }),
-      columnHelper.accessor("nama", {
+      columnHelper.accessor("username", {
         cell: (info) => info.getValue() ?? "-",
-        header: "Nama",
+        header: "Username",
       }),
-      columnHelper.accessor("email", {
-        cell: (info) => info.getValue() ?? "-",
-        header: "Email",
-      }),
-      columnHelper.accessor("nomor_telpon", {
-        cell: (info) => info.getValue() ?? "-",
-        header: "No. Telp",
+      columnHelper.accessor("role", {
+        cell: (info) =>
+          (info.getValue() ?? "-") === "adm" ? "Admin" : "Super Admin",
+        header: "Role User",
       }),
       columnHelper.display({
         id: "action",
@@ -55,26 +52,15 @@ const AlternatifTable: React.FC<IAlternatifParams> = ({
             <div className="flex items-center justify-center gap-3">
               <IconButton
                 color="primary"
-                onClick={() =>
-                  router.push(
-                    `/dashboard/consid/detail/${row.original.alternatif_id}`
-                  )
-                }
-                disabled={role !== "adm"}
-              >
-                <FontAwesomeIcon size="sm" icon={faEye} />
-              </IconButton>
-              <IconButton
-                color="primary"
                 onClick={() => onEditData?.(row.original)}
-                disabled={role !== "adm"}
+                disabled={role !== "spa" || true}
               >
                 <FontAwesomeIcon size="sm" icon={faEdit} />
               </IconButton>
               <IconButton
                 color="error"
                 onClick={() => onDeleteData?.(row.original)}
-                disabled={role !== "adm"}
+                disabled={role !== "spa"}
               >
                 <FontAwesomeIcon size="sm" icon={faTrash} />
               </IconButton>
@@ -138,4 +124,4 @@ const AlternatifTable: React.FC<IAlternatifParams> = ({
   );
 };
 
-export default AlternatifTable;
+export default UserTable;

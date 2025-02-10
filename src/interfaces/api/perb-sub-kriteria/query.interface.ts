@@ -8,3 +8,12 @@ export interface IGetPerbSubKriteriaResponse {
   CR: number;
   konsisten: boolean;
 }
+
+export interface IGetPerbSubKriteriaListCompResponse {
+  kriteria_id: number;
+  perbandingan: {
+    sub_kriteria1_id: number;
+    sub_kriteria2_id: number;
+    nilai_perbandingan: number;
+  }[];
+}

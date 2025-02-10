@@ -9,12 +9,15 @@ import { compChriteriaBreadcrumb } from "@/constants/breadcrumb/index.constant";
 import { ICreatePerbKriteriaRequest } from "@/interfaces/api/perb-kriteria/mutate.interface";
 import { useGetListKriteria } from "@/services/kriteria/query";
 import { usePostCreatePerbKriteria } from "@/services/perb-kriteria/mutation";
-import { useGetCalcKriteria } from "@/services/perb-kriteria/query";
+import {
+  useGetCalcKriteria,
+  useGetKriteriaCompList,
+} from "@/services/perb-kriteria/query";
 import { faAdd, faEraser, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Typography } from "@mui/material";
 import { useCookies } from "next-client-cookies";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -50,7 +53,8 @@ const CompChriteriaPage = () => {
   const { mutate } = usePostCreatePerbKriteria();
   const { data: dataCalcKriteria, refetch: refetchCalcKriteria } =
     useGetCalcKriteria();
-  const { data: dataKriteria, refetch: refetchKriteria } = useGetListKriteria();
+  const { data: dataKriteria } = useGetListKriteria();
+  const { data: dataKriteriaCompList } = useGetKriteriaCompList();
 
   const onCreateKriteria = () => {
     const data = getValues().perbandingan.map((p) => ({
@@ -84,6 +88,12 @@ const CompChriteriaPage = () => {
     setActiveModal("");
   };
 
+  useEffect(() => {
+    if (dataKriteriaCompList?.status) {
+      setValue("perbandingan", dataKriteriaCompList.data?.perbandingan ?? []);
+    }
+  }, [dataKriteriaCompList]);
+
   return (
     <div className="flex gap-3 flex-col">
       <Breadcrumb list={compChriteriaBreadcrumb} />
@@ -113,7 +123,12 @@ const CompChriteriaPage = () => {
               type="button"
               size="small"
               variant="outlined"
-              onClick={() => reset()}
+              onClick={() =>
+                setValue(
+                  "perbandingan",
+                  dataKriteriaCompList?.data?.perbandingan ?? []
+                )
+              }
               disabled={role !== "adm"}
             >
               Reset data

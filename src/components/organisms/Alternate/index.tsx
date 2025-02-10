@@ -46,7 +46,7 @@ const AlternatePage = ({ role }: { role: string }) => {
         onError: handleError,
         onSuccess: (res) => {
           refetch();
-          toast.success(res.data.message);
+          toast.success(res?.message);
           reset();
           setActiveModal("");
         },

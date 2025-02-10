@@ -9,7 +9,10 @@ import { compSubChriteriaBreadcrumb } from "@/constants/breadcrumb/index.constan
 import { ICreatePerbSubKriteriaRequest } from "@/interfaces/api/perb-sub-kriteria/mutate.interface";
 import { useGetListKriteria } from "@/services/kriteria/query";
 import { usePostCreatePerbSubKriteria } from "@/services/perb-sub-kriteria/mutation";
-import { useGetCalcSubKriteria } from "@/services/perb-sub-kriteria/query";
+import {
+  useGetCalcSubKriteria,
+  useGetSubKriteriaCompList,
+} from "@/services/perb-sub-kriteria/query";
 import { useGetListSubKriteria } from "@/services/sub-kriteria/query";
 import { faAdd, faEraser, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,7 +24,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useCookies } from "next-client-cookies";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -53,13 +56,15 @@ const CompSubChriteriaPage = () => {
     setActiveModal("");
   };
 
-  const { data: dataListKriteria, refetch: refetchListKriteria } =
-    useGetListKriteria();
+  const { data: dataListKriteria } = useGetListKriteria();
   const { data: dataListSubKriteria, refetch: refetchListSubKriteria } =
     useGetListSubKriteria();
   const { mutate } = usePostCreatePerbSubKriteria();
   const { data: dataCalcKriteria, refetch: refetchCalcKriteria } =
     useGetCalcSubKriteria(watch("kriteria_id") ?? 0);
+  const { data: dataListCalcKriteria } = useGetSubKriteriaCompList(
+    watch("kriteria_id") ?? 0
+  );
 
   const onCreateKriteria = () => {
     const data = getValues().perbandingan.map((p) => ({
@@ -88,6 +93,12 @@ const CompSubChriteriaPage = () => {
       }
     );
   };
+
+  useEffect(() => {
+    if (dataListCalcKriteria?.status) {
+      setValue("perbandingan", dataListCalcKriteria?.data?.perbandingan ?? []);
+    }
+  }, [dataListCalcKriteria]);
 
   const closeModal = () => {
     setActiveModal("");
@@ -153,7 +164,12 @@ const CompSubChriteriaPage = () => {
               size="small"
               disabled={role !== "adm"}
               variant="outlined"
-              onClick={() => reset()}
+              onClick={() =>
+                setValue(
+                  "perbandingan",
+                  dataListCalcKriteria?.data?.perbandingan ?? []
+                )
+              }
             >
               Reset data
             </Button>

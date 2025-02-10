@@ -39,6 +39,7 @@ const ChriteriaPage = () => {
     setActiveModal("");
   };
 
+  
   const onCreateKriteria = () => {
     handleCreate(
       { nama_kriteria: getValues("nama_kriteria") },

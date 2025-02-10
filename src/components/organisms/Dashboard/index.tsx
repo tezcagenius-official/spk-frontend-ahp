@@ -7,6 +7,7 @@ import BaseModal from "@/components/atoms/modal";
 import {
   sidebarListCounter,
   sidebarListMain,
+  sidebarListUser,
 } from "@/constants/navigation/index.constant";
 import { useLogoutUser } from "@/services/user/mutation";
 import {
@@ -109,7 +110,41 @@ export const DashboardPage: React.FC<
                       },
                 ]}
               >
-                <p className="font-medium text-xl">Dashboard</p>
+                <p className="font-medium text-lg">Users</p>
+              </ListItemButton>
+            </ListItem>
+            {sidebarListUser.map((item, index) => (
+              <ListItemRow
+                item={item}
+                open={open}
+                onClick={() => {
+                  router.replace(item.link);
+                }}
+                isActive={pathname.includes(item.link)}
+                key={`${item.name}-${index}`}
+              />
+            ))}
+          </List>
+          <Divider />
+          <List>
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={[
+                  {
+                    minHeight: 45,
+                    px: 2,
+                  },
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                        display: "none",
+                      },
+                ]}
+              >
+                <p className="font-medium text-lg">Dashboard</p>
               </ListItemButton>
             </ListItem>
             {sidebarListMain.map((item, index) => (
@@ -143,7 +178,7 @@ export const DashboardPage: React.FC<
                       },
                 ]}
               >
-                <p className="font-medium text-xl">Perhitungan</p>
+                <p className="font-medium text-lg">Perhitungan</p>
               </ListItemButton>
             </ListItem>
             {sidebarListCounter.map((item, index) => (

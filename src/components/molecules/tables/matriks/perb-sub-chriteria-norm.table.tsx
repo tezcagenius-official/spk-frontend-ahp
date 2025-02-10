@@ -36,8 +36,8 @@ const TableMatrixPerbSubChriteriaNorm = ({
         <TableHead>
           <TableRow>
             <TableCell align="justify" />
-            {header.slice(0, data.length).map((header) => (
-              <TableCell align="justify" key={header.kriteria_id}>
+            {header.slice(0, data.length).map((header, i) => (
+              <TableCell align="justify" key={`${i}-${header.kriteria_id}`}>
                 {header.nama_sub_kriteria}
               </TableCell>
             ))}
@@ -53,8 +53,8 @@ const TableMatrixPerbSubChriteriaNorm = ({
               <TableCell align="justify">
                 {header?.[i]?.nama_sub_kriteria ?? "-"}
               </TableCell>
-              {row.map((cell, i) => (
-                <TableCell key={`cell-${i}`} align="justify">
+              {row.map((cell, icell) => (
+                <TableCell key={`cell-${i}-${icell}`} align="justify">
                   {cell}
                 </TableCell>
               ))}

@@ -3,15 +3,11 @@ import {
   faCalculator,
   faFile,
   faPerson,
+  faUser,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const sidebarListMain: ISidebarList[] = [
-  {
-    name: "User Alternatif",
-    icon: faUsers,
-    link: "/dashboard/alternate",
-  },
   {
     name: "Kriteria",
     icon: faPerson,
@@ -34,5 +30,23 @@ export const sidebarListCounter: ISidebarList[] = [
     name: "Sub Kriteria",
     icon: faCalculator,
     link: "/dashboard/compare/sub-chriteria",
+  },
+  {
+    name: "Perhitungan",
+    icon: faCalculator,
+    link: "/dashboard/consid",
+  },
+];
+
+export const sidebarListUser: ISidebarList[] = [
+  {
+    name: "User Alternatif",
+    icon: faUsers,
+    link: "/dashboard/alternate",
+  },
+  {
+    name: "User Admin",
+    icon: faUser,
+    link: "/dashboard/users",
   },
 ];

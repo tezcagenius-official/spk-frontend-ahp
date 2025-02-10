@@ -38,8 +38,8 @@ export const ListItemRow = ({
           <ListItemButton
             sx={[
               {
-                minHeight: 45,
-                px: 2,
+                minHeight: 40,
+                px: 1,
               },
               open
                 ? {
@@ -65,7 +65,7 @@ export const ListItemRow = ({
                       mr: "auto",
                     },
               ]}
-              className="h-5"
+              className="h-3"
             >
               <FontAwesomeIcon
                 className={`${iconClass} ${!isActive && "text-neutral-500"}`}
