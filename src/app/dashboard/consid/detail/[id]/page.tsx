@@ -1,4 +1,4 @@
-import DetailConsid from "@/components/organisms/Consid /Detail";
+import DetailConsid from "@/components/organisms/Consid/Detail";
 import React from "react";
 
 const page = () => {

@@ -1,4 +1,4 @@
-import ConsidPage from "@/components/organisms/Consid ";
+import ConsidPage from "@/components/organisms/Consid";
 import { cookies } from "next/headers";
 import React from "react";
 
