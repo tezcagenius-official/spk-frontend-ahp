@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const tokenSession = cookies().get("token")?.value ?? null;
+  const tokenSession = (await cookies()).get("token")?.value ?? null;
 
   if (pathname === "/") {
     return NextResponse.redirect(new URL("/dashboard", request.url));

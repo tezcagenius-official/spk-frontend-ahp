@@ -1,10 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDetailKriteriaAPI, getListKriteriaAPI } from "./api";
+import { IGlobalPaginationParams } from "@/interfaces/global/api.interface";
 
-export const useGetListKriteria = (initfetch = true) => {
+export const useGetListKriteria = (
+  initfetch = true,
+  params?: IGlobalPaginationParams
+) => {
   return useQuery({
-    queryKey: ["getListKriteria"],
-    queryFn: () => getListKriteriaAPI().then((response) => response),
+    queryKey: ["getListKriteria", JSON.stringify(params)],
+    queryFn: () => getListKriteriaAPI(params).then((response) => response),
     enabled: initfetch,
   });
 };

@@ -1,3 +1,4 @@
+"use client";
 import { IPervChriteriaTableMatNormParams } from "@/interfaces/components/tables/perb-chriteria.interface";
 import {
   Paper,
@@ -9,7 +10,6 @@ import {
   TableRow,
 } from "@mui/material";
 import { useMemo } from "react";
-import React from "react";
 
 const TableMatrixPerbChriteriaNorm = ({
   data,

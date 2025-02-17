@@ -44,10 +44,11 @@ const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
           isOptionEqualToValue={(option, value) =>
             option.kriteria_id === value.kriteria_id
           }
-          value={datakriteria?.data?.find(
-            (dk) => dk.kriteria_id === kriteria1_id
-          )}
-          getOptionLabel={(option: any) => option.nama_kriteria}
+          value={
+            datakriteria?.data?.find((dk) => dk.kriteria_id === kriteria1_id) ??
+            (null as any) // eslint-disable-line
+          }
+          getOptionLabel={(option) => option?.nama_kriteria ?? ""}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -60,7 +61,7 @@ const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
               }}
             />
           )}
-          onChange={(_, value: any) => {
+          onChange={(_, value) => {
             if (value && value.kriteria_id)
               onValueChange?.({
                 id,
@@ -79,10 +80,11 @@ const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
           isOptionEqualToValue={(option, value) =>
             option.kriteria_id === value.kriteria_id
           }
-          value={datakriteria?.data?.find(
-            (dk) => dk.kriteria_id === kriteria2_id
-          )}
-          getOptionLabel={(option: any) => option.nama_kriteria}
+          value={
+            datakriteria?.data?.find((dk) => dk.kriteria_id === kriteria2_id) ??
+            (null as any) // eslint-disable-line
+          }
+          getOptionLabel={(option) => option?.nama_kriteria ?? ""}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -95,7 +97,7 @@ const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
               }}
             />
           )}
-          onChange={(_, value: any) => {
+          onChange={(_, value) => {
             if (value && value.kriteria_id)
               onValueChange?.({
                 id,

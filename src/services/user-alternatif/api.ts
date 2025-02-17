@@ -5,7 +5,10 @@ import {
 } from "@/interfaces/api/alternatif/mutate.interface";
 import { IGetListAlternatifResponse } from "@/interfaces/api/alternatif/query.interface";
 import { IGetKriteriaDetailResponse } from "@/interfaces/api/kriteria/query.interface";
-import { IBaseAPIResponse } from "@/interfaces/global/api.interface";
+import {
+  IBaseAPIResponse,
+  IGlobalPaginationParams,
+} from "@/interfaces/global/api.interface";
 import satellite from "../satellite";
 
 export const postCreateAlternatifAPI = async (
@@ -16,9 +19,13 @@ export const postCreateAlternatifAPI = async (
     .then((r) => r.data);
 };
 
-export const getListAlternatifAPI = async () => {
+export const getListAlternatifAPI = async (
+  params?: IGlobalPaginationParams
+) => {
   return await satellite
-    .get<IBaseAPIResponse<IGetListAlternatifResponse[]>>(`/api/alternatif`)
+    .get<IBaseAPIResponse<IGetListAlternatifResponse[]>>(`/api/alternatif`, {
+      params,
+    })
     .then((r) => r.data);
 };
 

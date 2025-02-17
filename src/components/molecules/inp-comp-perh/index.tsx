@@ -48,7 +48,7 @@ const InpCompPerh: React.FC<IInpCompPerhParams> = ({
           value={datakriteria?.data?.find(
             (dk) => dk.kriteria_id === kriteria_id
           )}
-          getOptionLabel={(option: any) => option.nama_kriteria}
+          getOptionLabel={(option) => option?.nama_kriteria ?? ""}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -61,7 +61,7 @@ const InpCompPerh: React.FC<IInpCompPerhParams> = ({
               }}
             />
           )}
-          onChange={(_, value: any) => {
+          onChange={(_, value) => {
             if (value && value.kriteria_id)
               onValueChange?.({
                 id,
@@ -75,14 +75,14 @@ const InpCompPerh: React.FC<IInpCompPerhParams> = ({
           className="grow"
           size="small"
           disabled={disableAll}
-          options={datasubkriteria?.data ?? []}
+          options={datasubkriteria ?? []}
           isOptionEqualToValue={(option, value) =>
             option.sub_kriteria_id === value.sub_kriteria_id
           }
-          value={datasubkriteria?.data?.find(
+          value={datasubkriteria?.find(
             (dk) => dk.sub_kriteria_id === sub_kriteria_id
           )}
-          getOptionLabel={(option: any) => option.nama_sub_kriteria}
+          getOptionLabel={(option) => option?.nama_sub_kriteria ?? ""}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -95,7 +95,7 @@ const InpCompPerh: React.FC<IInpCompPerhParams> = ({
               }}
             />
           )}
-          onChange={(_, value: any) => {
+          onChange={(_, value) => {
             if (value && value.sub_kriteria_id)
               onValueChange?.({
                 id,

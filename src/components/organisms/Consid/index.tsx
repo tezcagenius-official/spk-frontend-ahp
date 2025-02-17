@@ -4,6 +4,7 @@ import BaseModal from "@/components/atoms/modal";
 import InpCompPerh from "@/components/molecules/inp-comp-perh";
 import TableHasilPerhitungan from "@/components/molecules/tables/hasil-perh.table";
 import { compConsidBreadcrumb } from "@/constants/breadcrumb/index.constant";
+import { IKriteriaPerh } from "@/interfaces/api/perhitungan/query.interface";
 import { IConsidForm } from "@/interfaces/page/consid/index.interface";
 import { useGetListKriteria } from "@/services/kriteria/query";
 import { usePostCreateperhitungan } from "@/services/perhitungan/mutation";
@@ -16,7 +17,7 @@ import { useGetListUserAlternatif } from "@/services/user-alternatif/query";
 import { faAdd, faEraser, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Autocomplete, Button, Card, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -33,20 +34,33 @@ const ConsidPage = ({ role }: { role: string }) => {
     page: "1",
     perPage: "10",
   });
-  const { data: dataListKriteria } = useGetListKriteria();
-  const { data: dataListSubKriteria } = useGetListSubKriteria();
-  const { data: dataListAlternatif } = useGetListUserAlternatif();
+  const { data: dataListKriteria } = useGetListKriteria(true, {
+    page: "1",
+    perPage: "9000",
+  });
+  const { data: dataListSubKriteria } = useGetListSubKriteria({
+    page: "1",
+    perPage: "9000",
+  });
+  const { data: dataListAlternatif } = useGetListUserAlternatif({
+    page: "1",
+    perPage: "9000",
+  });
   const { data: dataAlt } = useGetPerhitunganAlt(watch("alternatif_id"));
   const { mutate: mutateCreate } = usePostCreateperhitungan();
   const { data: dataHasilPerhitungan, refetch: refetchHasilPerh } =
     useGetListPerhitungan(page);
 
   useEffect(() => {
-    console.log("dataAlt");
-    console.log(dataAlt);
+    dataAlt?.data?.kriteria?.forEach((record) => {
+      append({
+        kriteria_id: record.kriteria_id,
+        sub_kriteria_id: null,
+      });
+    });
   }, [dataAlt]);
 
-  const handleError = (err: any) => {
+  const handleError = (err: Error) => {
     const { message } = JSON.parse(err?.message ?? "Failed to do some jobs!");
     if (Array.isArray(message)) message.forEach((m) => toast.error(m));
     toast.error(message);
@@ -55,9 +69,11 @@ const ConsidPage = ({ role }: { role: string }) => {
 
   const handleCreate = () => {
     const payload = getValues();
-    payload.penilaian.map((pen: any) => {
-      delete pen?.id;
-    });
+    payload.penilaian.map(
+      (pen: { kriteria_id: number; sub_kriteria_id: number; id?: string }) => {
+        delete pen?.id;
+      }
+    );
     mutateCreate(payload, {
       onError: handleError,
       onSuccess: (res) => {
@@ -72,6 +88,17 @@ const ConsidPage = ({ role }: { role: string }) => {
   const closeModal = () => {
     setActiveModal("");
   };
+
+  const filterSubKriteria = useCallback(
+    (kriteria_id: number | null) => {
+      const filteredList: IKriteriaPerh | undefined =
+        dataAlt?.data?.kriteria?.find((r) => r.kriteria_id === kriteria_id);
+      if (filteredList) return filteredList.sub_kriteria;
+
+      return dataListSubKriteria?.data ?? [];
+    },
+    [dataAlt, dataListSubKriteria]
+  );
 
   return (
     <div className="flex gap-3 flex-col">
@@ -95,10 +122,12 @@ const ConsidPage = ({ role }: { role: string }) => {
                   return option.alternatif_id;
                 }}
                 disableClearable
-                value={dataListAlternatif?.data?.find(
-                  (dk) => dk.alternatif_id === watch("alternatif_id")
-                )}
-                getOptionLabel={(option: any) => option.nama}
+                value={
+                  dataListAlternatif?.data?.find(
+                    (dk) => dk.alternatif_id === watch("alternatif_id")
+                  ) ?? (null as any) // eslint-disable-line
+                }
+                getOptionLabel={(option) => option.nama}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -111,7 +140,7 @@ const ConsidPage = ({ role }: { role: string }) => {
                     }}
                   />
                 )}
-                onChange={(_, value: any) => {
+                onChange={(_, value) => {
                   if (value && value.alternatif_id)
                     setValue("alternatif_id", value.alternatif_id);
                 }}
@@ -167,7 +196,7 @@ const ConsidPage = ({ role }: { role: string }) => {
                   onValueChange={(data) => update(i, data)}
                   onRemoveList={() => remove(i)}
                   datakriteria={dataListKriteria}
-                  datasubkriteria={dataListSubKriteria}
+                  datasubkriteria={filterSubKriteria(f.kriteria_id)}
                   disableRemove={fields.length === 1}
                   disableAll={role !== "adm"}
                 />

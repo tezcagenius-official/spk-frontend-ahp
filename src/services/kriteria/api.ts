@@ -1,5 +1,8 @@
 "use server";
-import { IBaseAPIResponse } from "@/interfaces/global/api.interface";
+import {
+  IBaseAPIResponse,
+  IGlobalPaginationParams,
+} from "@/interfaces/global/api.interface";
 import satellite from "../satellite";
 import {
   ICreateKriteriaRequest,
@@ -31,9 +34,11 @@ export const deleteKriteriaAPI = async (id: number) => {
     .then((r) => r.data);
 };
 
-export const getListKriteriaAPI = async () => {
+export const getListKriteriaAPI = async (params?: IGlobalPaginationParams) => {
   return await satellite
-    .get<IBaseAPIResponse<IGetListKriteriaResponse[]>>(`/api/criteria`)
+    .get<IBaseAPIResponse<IGetListKriteriaResponse[]>>(`/api/criteria`, {
+      params,
+    })
     .then((r) => r.data);
 };
 

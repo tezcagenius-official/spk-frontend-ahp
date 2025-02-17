@@ -17,14 +17,14 @@ import { faAdd, faEraser, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Typography } from "@mui/material";
 import { useCookies } from "next-client-cookies";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const CompChriteriaPage = () => {
   const [activeModal, setActiveModal] = useState<string>("");
   const role = useCookies().get("role");
-  const { handleSubmit, control, getValues, setValue, reset, watch, register } =
+  const { handleSubmit, control, getValues, setValue, reset, register } =
     useForm<ICreatePerbKriteriaRequest>({
       defaultValues: {
         perbandingan: [
@@ -41,7 +41,7 @@ const CompChriteriaPage = () => {
     control,
   });
 
-  const handleError = (err: any) => {
+  const handleError = (err: Error) => {
     const { message } = JSON.parse(err?.message ?? "Failed to do some jobs!");
     if (Array.isArray(message)) message.forEach((m) => toast.error(m));
     toast.error(message);
@@ -49,11 +49,17 @@ const CompChriteriaPage = () => {
   };
 
   const { data: dataListKriteria, refetch: refetchListKriteria } =
-    useGetListKriteria();
+    useGetListKriteria(true, {
+      page: "1",
+      perPage: "9000",
+    });
   const { mutate } = usePostCreatePerbKriteria();
   const { data: dataCalcKriteria, refetch: refetchCalcKriteria } =
     useGetCalcKriteria();
-  const { data: dataKriteria } = useGetListKriteria();
+  const { data: dataKriteria } = useGetListKriteria(true, {
+    page: "1",
+    perPage: "9000",
+  });
   const { data: dataKriteriaCompList } = useGetKriteriaCompList();
 
   const onCreateKriteria = () => {
@@ -92,7 +98,7 @@ const CompChriteriaPage = () => {
     if (dataKriteriaCompList?.status) {
       setValue("perbandingan", dataKriteriaCompList.data?.perbandingan ?? []);
     }
-  }, [dataKriteriaCompList]);
+  }, [dataKriteriaCompList, setValue]);
 
   return (
     <div className="flex gap-3 flex-col">

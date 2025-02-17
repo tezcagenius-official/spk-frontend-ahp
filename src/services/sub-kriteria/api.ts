@@ -1,5 +1,8 @@
 "use server";
-import { IBaseAPIResponse } from "@/interfaces/global/api.interface";
+import {
+  IBaseAPIResponse,
+  IGlobalPaginationParams,
+} from "@/interfaces/global/api.interface";
 import satellite from "../satellite";
 import {
   ICreateSubKriteriaRequest,
@@ -10,15 +13,21 @@ import {
   IGetSubKriteriaDetailResponse,
 } from "@/interfaces/api/sub-kriteria/query.interface";
 
-export const postCreateSubKriteriaAPI = async (body: ICreateSubKriteriaRequest) => {
+export const postCreateSubKriteriaAPI = async (
+  body: ICreateSubKriteriaRequest
+) => {
   return await satellite
     .post<IBaseAPIResponse>(`/api/sub-kriteria`, body)
     .then((r) => r.data);
 };
 
-export const getListSubKriteriaAPI = async () => {
+export const getListSubKriteriaAPI = async (
+  params?: IGlobalPaginationParams
+) => {
   return await satellite
-    .get<IBaseAPIResponse<IGetListSubKriteriaResponse[]>>(`/api/sub-kriteria`)
+    .get<IBaseAPIResponse<IGetListSubKriteriaResponse[]>>(`/api/sub-kriteria`, {
+      params,
+    })
     .then((r) => r.data);
 };
 

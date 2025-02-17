@@ -38,8 +38,3 @@ export interface INilaiPerhitungan {
   sub_kriteria: string;
   nilai: string;
 }
-
-export interface IGetListPerhitunganParams {
-  page: string;
-  perPage: string;
-}

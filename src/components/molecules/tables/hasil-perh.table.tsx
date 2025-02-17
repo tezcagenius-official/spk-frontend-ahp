@@ -1,14 +1,8 @@
-import {
-  IGetPerhitungan,
-  IGetPerhitunganListResponse,
-} from "@/interfaces/api/perhitungan/query.interface";
-import { IChriteriaParams } from "@/interfaces/components/tables/chriteria.interface";
+"use client";
+import { IGetPerhitungan } from "@/interfaces/api/perhitungan/query.interface";
 import { IPerhCompParams } from "@/interfaces/components/tables/perh-comp.interface";
-import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
-  IconButton,
   Pagination,
   Paper,
   Table,
@@ -25,29 +19,25 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useCookies } from "next-client-cookies";
-import { useRouter } from "next/navigation";
 import React, { useMemo } from "react";
 
 const TableHasilPerhitungan: React.FC<IPerhCompParams> = ({
   data,
   pagination,
   onPageChange,
-  disableAll,
 }) => {
-  const router = useRouter();
   const currentPage = pagination?.currentPage || 1;
   const totalPages = pagination?.lastPage || 1;
   const totalItems = pagination?.total || 0;
   const itemsPerPage = pagination?.perPage || 10;
 
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalItems) {
-      onPageChange && onPageChange(newPage);
-    }
-  };
+  const handlePageChange = (newPage: number) =>
+    newPage > 0 &&
+    newPage <= totalItems &&
+    onPageChange &&
+    onPageChange(newPage);
+
   const columnHelper = createColumnHelper<IGetPerhitungan>();
-  const role = useCookies().get("role");
   const initialColumns = useMemo(() => {
     const baseColumn = [
       columnHelper.accessor("nama", {
@@ -84,7 +74,7 @@ const TableHasilPerhitungan: React.FC<IPerhCompParams> = ({
   return (
     <>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table aria-label="perh-consid-table">
           <TableHead>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -117,7 +107,7 @@ const TableHasilPerhitungan: React.FC<IPerhCompParams> = ({
                 className="text-center"
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                No data provided
+                <TableCell>No data provided</TableCell>
               </TableRow>
             )}
           </TableBody>

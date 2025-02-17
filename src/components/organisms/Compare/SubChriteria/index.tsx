@@ -49,16 +49,22 @@ const CompSubChriteriaPage = () => {
     control,
   });
 
-  const handleError = (err: any) => {
+  const handleError = (err: Error) => {
     const { message } = JSON.parse(err?.message ?? "Failed to do some jobs!");
     if (Array.isArray(message)) message.forEach((m) => toast.error(m));
     toast.error(message);
     setActiveModal("");
   };
 
-  const { data: dataListKriteria } = useGetListKriteria();
+  const { data: dataListKriteria } = useGetListKriteria(true, {
+    page: "1",
+    perPage: "9000",
+  });
   const { data: dataListSubKriteria, refetch: refetchListSubKriteria } =
-    useGetListSubKriteria();
+    useGetListSubKriteria({
+      page: "1",
+      perPage: "9000",
+    });
   const { mutate } = usePostCreatePerbSubKriteria();
   const { data: dataCalcKriteria, refetch: refetchCalcKriteria } =
     useGetCalcSubKriteria(watch("kriteria_id") ?? 0);
@@ -98,7 +104,7 @@ const CompSubChriteriaPage = () => {
     if (dataListCalcKriteria?.status) {
       setValue("perbandingan", dataListCalcKriteria?.data?.perbandingan ?? []);
     }
-  }, [dataListCalcKriteria]);
+  }, [dataListCalcKriteria, setValue]);
 
   const closeModal = () => {
     setActiveModal("");
@@ -119,10 +125,12 @@ const CompSubChriteriaPage = () => {
                 option.kriteria_id === value.kriteria_id
               }
               disableClearable
-              value={dataListKriteria?.data?.find(
-                (dk) => dk.kriteria_id === watch("kriteria_id")
-              )}
-              getOptionLabel={(option: any) => option.nama_kriteria}
+              value={
+                dataListKriteria?.data?.find(
+                  (dk) => dk.kriteria_id === watch("kriteria_id")
+                ) ?? (null as any) // eslint-disable-line
+              }
+              getOptionLabel={(option) => option?.nama_kriteria ?? ""}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -135,7 +143,7 @@ const CompSubChriteriaPage = () => {
                   }}
                 />
               )}
-              onChange={(_, value: any) => {
+              onChange={(_, value) => {
                 if (value && value.kriteria_id)
                   setValue("kriteria_id", value.kriteria_id);
               }}

@@ -204,7 +204,7 @@ export const DashboardPage: React.FC<
                 }}
                 iconClass="!text-red-100"
                 parentClass="bg-red-700 text-red-100 !p-0"
-                onClick={(e) => {
+                onClick={() => {
                   setModalOpened("modal-keluar");
                 }}
                 open={open}

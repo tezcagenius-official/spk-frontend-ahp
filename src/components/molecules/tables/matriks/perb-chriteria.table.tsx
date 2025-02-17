@@ -1,3 +1,4 @@
+"use client";
 import { IPerbChriteriaTableMatrixParams } from "@/interfaces/components/tables/perb-chriteria.interface";
 import {
   Paper,

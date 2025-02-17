@@ -1,22 +1,18 @@
 "use client";
+import Loader from "@/components/atoms/loading";
 import { ILoginForm } from "@/interfaces/components/login/index.interface";
-import { VloginSchema } from "@/validators/login/index.validator";
+import { useLoginUser } from "@/services/user/mutation";
 import {
   faEye,
   faEyeSlash,
   faIdCard,
   faKey,
-  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Button, Card, TextField, Typography } from "@mui/material";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { joiResolver } from "@hookform/resolvers/joi";
-import { useLoginUser } from "@/services/user/mutation";
-import { toast } from "react-toastify";
-import Loader from "@/components/atoms/loading";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const { register, watch, getValues, setValue, handleSubmit } =
@@ -47,7 +43,7 @@ const LoginPage = () => {
           if (Array.isArray(message)) message.forEach((m) => toast.error(m));
           toast.error(message);
         },
-        onSuccess: (res) => {
+        onSuccess: () => {
           toast.success("Login berhasil!");
           replace("/dashboard");
         },
@@ -59,18 +55,12 @@ const LoginPage = () => {
     <div className="h-screen w-screen fixed">
       <Box className="px-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <Card className="overflow-hidden rounded-2xl lg:w-[450px] w-fit px-5 pt-3 pb-5 flex gap-2 flex-col">
-          <Typography
-            variant="h3"
-            component="h1"
-            fontWeight="bold"
-            children="Login"
-          />
-          <Typography
-            variant="body1"
-            component="p"
-            children="Masukkan kredensial admin anda dibawah ini."
-            marginBottom={3}
-          />
+          <Typography variant="h3" component="h1" fontWeight="bold">
+            Login
+          </Typography>
+          <Typography variant="body1" component="p" marginBottom={3}>
+            Masukkan kredensial admin anda dibawah ini.
+          </Typography>
           <form
             className="flex gap-2 h-[90px]"
             onSubmit={handleSubmit(() => handleLogin())}

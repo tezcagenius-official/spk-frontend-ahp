@@ -25,8 +25,12 @@ const AlternatePage = ({ role }: { role: string }) => {
         type: "create",
       },
     });
+  const [page, setPage] = useState({
+    page: "1",
+    perPage: "10",
+  });
 
-  const { data, refetch } = useGetListUserAlternatif();
+  const { data, refetch } = useGetListUserAlternatif(page);
   const { mutate: handleCreate } = useCreateAlternatif();
   const { mutate: handleUpdate } = useUpdateAlternatif();
   const { mutate: handleDelete } = useDeleteAlternatif();
@@ -159,6 +163,13 @@ const AlternatePage = ({ role }: { role: string }) => {
             setValue("nama", data.nama);
             setValue("nomor_telpon", data.nomor_telpon);
             setValue("type", "update");
+          }}
+          pagination={data?.meta}
+          onPageChange={(new_page) => {
+            setPage((prev) => ({
+              ...prev,
+              page: new_page.toString(),
+            }));
           }}
         />
       </Card>

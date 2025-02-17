@@ -13,3 +13,8 @@ export interface IMetaAPIResponse {
   prev: string;
   next: string;
 }
+
+export interface IGlobalPaginationParams {
+  page: string;
+  perPage: string;
+}

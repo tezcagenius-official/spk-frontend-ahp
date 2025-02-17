@@ -26,20 +26,23 @@ const ChriteriaPage = () => {
         type: "create",
       },
     });
+  const [page, setPage] = useState({
+    page: "1",
+    perPage: "10",
+  });
   const role = useCookies().get("role");
-  const { data, refetch } = useGetListKriteria();
+  const { data, refetch } = useGetListKriteria(true, page);
   const { mutate: handleCreate } = usePostCreateKriteria();
   const { mutate: handleUpdate } = usePatchUpdateKriteria();
   const { mutate: handleDelete } = useDeleteKriteria();
 
-  const handleError = (err: any) => {
+  const handleError = (err: Error) => {
     const { message } = JSON.parse(err?.message ?? "Failed to do some jobs!");
     if (Array.isArray(message)) message.forEach((m) => toast.error(m));
     toast.error(message);
     setActiveModal("");
   };
 
-  
   const onCreateKriteria = () => {
     handleCreate(
       { nama_kriteria: getValues("nama_kriteria") },
@@ -146,6 +149,13 @@ const ChriteriaPage = () => {
             setValue("type", "update");
           }}
           disableAll={role === "adm"}
+          pagination={data?.meta}
+          onPageChange={(new_page) => {
+            setPage((prev) => ({
+              ...prev,
+              page: new_page.toString(),
+            }));
+          }}
         />
       </Card>
 

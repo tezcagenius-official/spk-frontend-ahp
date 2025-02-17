@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDetailAlternatifAPI, getListAlternatifAPI } from "./api";
+import { IGlobalPaginationParams } from "@/interfaces/global/api.interface";
 
-export const useGetListUserAlternatif = () => {
+export const useGetListUserAlternatif = (params?: IGlobalPaginationParams) => {
   return useQuery({
-    queryKey: ["getListUserAlternatif"],
-    queryFn: () => getListAlternatifAPI().then((response) => response),
+    queryKey: ["getListUserAlternatif", JSON.stringify(params)],
+    queryFn: () => getListAlternatifAPI(params).then((response) => response),
   });
 };
 

@@ -3,7 +3,6 @@ import Breadcrumb from "@/components/atoms/breadcrumb";
 import BaseModal from "@/components/atoms/modal";
 import SubChriteriaTable from "@/components/molecules/tables/sub-chriteria.table";
 import { subChriteriaPageBreadcrumb } from "@/constants/breadcrumb/index.constant";
-import { IGetListKriteriaResponse } from "@/interfaces/api/kriteria/query.interface";
 import { IFormSubChriteria } from "@/interfaces/page/sub-chriteria/index.interface";
 import { useGetListKriteria } from "@/services/kriteria/query";
 import {
@@ -15,11 +14,13 @@ import { useGetListSubKriteria } from "@/services/sub-kriteria/query";
 import { faRefresh, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Autocomplete, Button, Card, TextField } from "@mui/material";
+import { useCookies } from "next-client-cookies";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const SubChriteriaPage = () => {
+const SubChriteriaPage: React.FC = () => {
+  const role = useCookies().get("role");
   const [activeModal, setActiveModal] = useState<string>("");
   const { register, handleSubmit, getValues, setValue, reset, watch } =
     useForm<IFormSubChriteria>({
@@ -29,13 +30,21 @@ const SubChriteriaPage = () => {
       },
     });
 
-  const { data, refetch } = useGetListSubKriteria();
-  const { data: dataKriteria } = useGetListKriteria();
+  const [page, setPage] = useState({
+    page: "1",
+    perPage: "10",
+  });
+
+  const { data, refetch } = useGetListSubKriteria(page);
+  const { data: dataKriteria } = useGetListKriteria(true, {
+    page: "1",
+    perPage: "9000",
+  });
   const { mutate: handleCreate } = usePostCreateSubKriteria();
   const { mutate: handleUpdate } = usePatchUpdateSubKriteria();
   const { mutate: handleDelete } = useDeleteSubKriteria();
 
-  const handleError = (err: any) => {
+  const handleError = (err: Error) => {
     const { message } = JSON.parse(err?.message ?? "Failed to do some jobs!");
     if (Array.isArray(message)) message.forEach((m) => toast.error(m));
     toast.error(message);
@@ -44,8 +53,6 @@ const SubChriteriaPage = () => {
 
   const onCreateSubKriteria = () => {
     const { kriteria_id, nama_sub_kriteria } = getValues();
-    console.log(kriteria_id);
-    console.log(nama_sub_kriteria);
     handleCreate(
       { kriteria_id, nama_sub_kriteria },
       {
@@ -127,9 +134,9 @@ const SubChriteriaPage = () => {
                 inputValue={
                   dataKriteria?.data?.find(
                     (k) => k.kriteria_id === (getValues("kriteria_id") ?? 0)
-                  )?.nama_kriteria ?? undefined
+                  )?.nama_kriteria ?? ""
                 }
-                getOptionLabel={(option: any) => option.nama_kriteria}
+                getOptionLabel={(option) => option?.nama_kriteria ?? ""}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -142,7 +149,7 @@ const SubChriteriaPage = () => {
                     }}
                   />
                 )}
-                onChange={(_, value: any) => {
+                onChange={(_, value) => {
                   if (value && value.kriteria_id)
                     setValue("kriteria_id", value?.kriteria_id);
                 }}
@@ -150,6 +157,7 @@ const SubChriteriaPage = () => {
             )}
             <Button
               type="submit"
+              disabled={role !== "spa"}
               className="flex gap-2 justify-center items-center"
             >
               <FontAwesomeIcon icon={faSave} />
@@ -157,6 +165,7 @@ const SubChriteriaPage = () => {
             </Button>
             <Button
               type="button"
+              disabled={role !== "spa"}
               className="flex gap-2 justify-center items-center"
               onClick={() => {
                 reset();
@@ -180,6 +189,13 @@ const SubChriteriaPage = () => {
             setValue("nama_sub_kriteria", data.nama_sub_kriteria ?? "");
             setValue("sub_kriteria_id", data.sub_kriteria_id ?? "");
             setValue("type", "update");
+          }}
+          pagination={data?.meta}
+          onPageChange={(new_page) => {
+            setPage((prev) => ({
+              ...prev,
+              page: new_page.toString(),
+            }));
           }}
         />
       </Card>

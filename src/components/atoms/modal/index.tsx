@@ -1,6 +1,6 @@
 import { IBaseModalProps } from "@/interfaces/components/modal/index.interface";
 import { Backdrop, Box, Fade, Modal } from "@mui/material";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const BaseModal: React.FC<IBaseModalProps> = ({
   name,

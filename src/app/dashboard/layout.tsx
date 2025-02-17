@@ -7,9 +7,10 @@ const layout: React.FC<
   Readonly<{
     children: React.ReactNode;
   }>
-> = ({ children }) => {
+> = async ({ children }) => {
+  const cookie = await cookies();
   return (
-    <DashboardPage role={cookies().get("role")?.value ?? ""}>
+    <DashboardPage role={cookie.get("role")?.value ?? ""}>
       {children}
     </DashboardPage>
   );

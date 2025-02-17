@@ -21,8 +21,12 @@ const UserPage = ({ role }: { role: string }) => {
       },
     });
   const [activeModal, setActiveModal] = useState<string>("");
+  const [page, setPage] = useState({
+    page: "1",
+    perPage: "10",
+  });
 
-  const { data: dataUser, refetch } = useGetListUser();
+  const { data: dataUser, refetch } = useGetListUser(page);
   const { mutate: mutateCreateUser } = useCreateUser();
   const { mutate: mutateDeleteUser } = useDeleteUser();
 
@@ -106,7 +110,7 @@ const UserPage = ({ role }: { role: string }) => {
                 },
               ]}
               isOptionEqualToValue={(option, value) => option.key === value.key}
-              getOptionLabel={(option: any) => option.value}
+              getOptionLabel={(option) => option.value}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -119,7 +123,7 @@ const UserPage = ({ role }: { role: string }) => {
                   }}
                 />
               )}
-              onChange={(_, v: any) => {
+              onChange={(_, v) => {
                 if (v && v.value) setValue("role", v?.key);
               }}
             />
@@ -156,6 +160,13 @@ const UserPage = ({ role }: { role: string }) => {
           onEditData={(data) => {
             setValue("role", data.role);
             setValue("username", data.username);
+          }}
+          pagination={dataUser?.meta}
+          onPageChange={(new_page) => {
+            setPage((prev) => ({
+              ...prev,
+              page: new_page.toString(),
+            }));
           }}
         />
       </Card>

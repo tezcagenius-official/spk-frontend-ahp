@@ -1,7 +1,7 @@
 import { IInpCompSubChriteriaParams } from "@/interfaces/components/inp-create-sub-chriteria/index.interface";
 import { faEraser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Autocomplete, IconButton, Input, TextField } from "@mui/material";
+import { Autocomplete, IconButton, TextField } from "@mui/material";
 import React from "react";
 
 const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
@@ -37,11 +37,13 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
           isOptionEqualToValue={(option, value) =>
             option.sub_kriteria_id === value.sub_kriteria_id
           }
-          value={dataSubKriteria?.data?.find(
-            (dk) => dk.sub_kriteria_id === sub_kriteria1_id
-          )}
+          value={
+            dataSubKriteria?.data?.find(
+              (dk) => dk.sub_kriteria_id === sub_kriteria1_id
+            ) ?? (null as any) // eslint-disable-line
+          }
           disabled={disableAll}
-          getOptionLabel={(option: any) => option.nama_sub_kriteria}
+          getOptionLabel={(option) => option?.nama_sub_kriteria ?? ""}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -54,7 +56,7 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
               }}
             />
           )}
-          onChange={(_, value: any) => {
+          onChange={(_, value) => {
             if (value && value.sub_kriteria_id)
               onValueChange?.({
                 id,
@@ -73,10 +75,12 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
           isOptionEqualToValue={(option, value) =>
             option.sub_kriteria_id === value.sub_kriteria_id
           }
-          value={dataSubKriteria?.data?.find(
-            (dk) => dk.sub_kriteria_id === sub_kriteria2_id
-          )}
-          getOptionLabel={(option: any) => option.nama_sub_kriteria}
+          value={
+            dataSubKriteria?.data?.find(
+              (dk) => dk.sub_kriteria_id === sub_kriteria2_id
+            ) ?? (null as any) // eslint-disable-line
+          }
+          getOptionLabel={(option) => option?.nama_sub_kriteria ?? ""}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -89,7 +93,7 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
               }}
             />
           )}
-          onChange={(_, value: any) => {
+          onChange={(_, value) => {
             if (value && value.sub_kriteria_id)
               onValueChange?.({
                 id,

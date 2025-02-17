@@ -4,7 +4,7 @@ import { getListUserAPI } from "./api";
 
 export const useGetListUser = (params?: IGetListUserParams) => {
   return useQuery({
-    queryKey: ["get list of user"],
+    queryKey: ["get list of user", JSON.stringify(params)],
     queryFn: () => getListUserAPI(params).then((response) => response),
   });
 };

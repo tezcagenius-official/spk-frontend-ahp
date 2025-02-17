@@ -6,8 +6,8 @@ import {
 } from "@tanstack/react-query";
 import { cookies } from "next/headers";
 
-const role = (await cookies().get("role")?.value) ?? "";
-const page = () => {
+const page = async () => {
+  const role = (await cookies()).get("role")?.value ?? "";
   const queryClient = new QueryClient();
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

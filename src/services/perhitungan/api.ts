@@ -1,11 +1,11 @@
 "use server";
-import { IBaseAPIResponse } from "@/interfaces/global/api.interface";
-import satellite from "../satellite";
 import { ICreatePerhitunganRequest } from "@/interfaces/api/perhitungan/mutate.interface";
+import { IGetPerhitunganAltResponse } from "@/interfaces/api/perhitungan/query.interface";
 import {
-  IGetListPerhitunganParams,
-  IGetPerhitunganAltResponse,
-} from "@/interfaces/api/perhitungan/query.interface";
+  IBaseAPIResponse,
+  IGlobalPaginationParams,
+} from "@/interfaces/global/api.interface";
+import satellite from "../satellite";
 
 export const getPerhitunganAltAPI = async (alt_id: number) => {
   return await satellite
@@ -23,7 +23,7 @@ export const postCreatePerhitunganAPI = async (
     .then((r) => r.data);
 };
 
-export const getPerhitunganAPI = async (params?: IGetListPerhitunganParams) => {
+export const getPerhitunganAPI = async (params?: IGlobalPaginationParams) => {
   return await satellite
     .get<IBaseAPIResponse>(`/api/perhitungan`, {
       params: params,
