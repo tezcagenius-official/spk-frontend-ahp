@@ -1,5 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCalcSubPerbandinganAPI, getSubPerbandinganListAPI } from "./api";
+import {
+  getCalcSubPerbandinganAPI,
+  getDisplaySubKriteriaAPI,
+  getSubPerbandinganListAPI,
+} from "./api";
 
 export const useGetCalcSubKriteria = (id: number) => {
   return useQuery({
@@ -12,5 +16,12 @@ export const useGetSubKriteriaCompList = (id: number) => {
   return useQuery({
     queryKey: ["getCalcSubKriteriaCompList", id],
     queryFn: () => getSubPerbandinganListAPI(id).then((response) => response),
+  });
+};
+
+export const useGetDisplaySubKriteriaAPI = (id: number) => {
+  return useQuery({
+    queryKey: ["getDisplaySubKriteriaAPI", id],
+    queryFn: () => getDisplaySubKriteriaAPI(id).then((response) => response),
   });
 };

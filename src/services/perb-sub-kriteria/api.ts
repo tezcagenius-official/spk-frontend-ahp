@@ -1,17 +1,23 @@
 "use server";
-import { IBaseAPIResponse } from "@/interfaces/global/api.interface";
-import satellite from "../satellite";
+import { ICreatePerbSubKriteriaRequest } from "@/interfaces/api/perb-sub-kriteria/mutate.interface";
 import {
   IGetPerbSubKriteriaListCompResponse,
   IGetPerbSubKriteriaResponse,
 } from "@/interfaces/api/perb-sub-kriteria/query.interface";
-import { ICreatePerbSubKriteriaRequest } from "@/interfaces/api/perb-sub-kriteria/mutate.interface";
+import { IBaseAPIResponse } from "@/interfaces/global/api.interface";
+import satellite from "../satellite";
 
 export const postCreateSubPerbandinganAPI = async (
   body: ICreatePerbSubKriteriaRequest
 ) => {
   return await satellite
     .post<IBaseAPIResponse>(`/api/perbandingan-sub/perbandingan`, body)
+    .then((r) => r.data);
+};
+
+export const getDisplaySubKriteriaAPI = async (kriteria_id: number) => {
+  return await satellite
+    .get<IBaseAPIResponse>(`/api/perbandingan-sub/display-sub/${kriteria_id}`)
     .then((r) => r.data);
 };
 

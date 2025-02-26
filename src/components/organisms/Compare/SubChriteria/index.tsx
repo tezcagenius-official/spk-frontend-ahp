@@ -11,6 +11,7 @@ import { useGetListKriteria } from "@/services/kriteria/query";
 import { usePostCreatePerbSubKriteria } from "@/services/perb-sub-kriteria/mutation";
 import {
   useGetCalcSubKriteria,
+  useGetDisplaySubKriteriaAPI,
   useGetSubKriteriaCompList,
 } from "@/services/perb-sub-kriteria/query";
 import { useGetListSubKriteria } from "@/services/sub-kriteria/query";
@@ -24,7 +25,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useCookies } from "next-client-cookies";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -69,6 +70,9 @@ const CompSubChriteriaPage = () => {
   const { data: dataCalcKriteria, refetch: refetchCalcKriteria } =
     useGetCalcSubKriteria(watch("kriteria_id") ?? 0);
   const { data: dataListCalcKriteria } = useGetSubKriteriaCompList(
+    watch("kriteria_id") ?? 0
+  );
+  const { data: dataDisplayCalcKriteri } = useGetDisplaySubKriteriaAPI(
     watch("kriteria_id") ?? 0
   );
 
@@ -219,7 +223,7 @@ const CompSubChriteriaPage = () => {
         </Typography>
         <TableMatrixPerbSubChriteria
           data={dataCalcKriteria?.data?.matriks ?? []}
-          header={dataListSubKriteria?.data ?? []}
+          header={dataDisplayCalcKriteri?.data ?? []}
         />
       </div>
 

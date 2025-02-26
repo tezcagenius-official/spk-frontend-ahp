@@ -7,14 +7,23 @@ import { compConsidBreadcrumb } from "@/constants/breadcrumb/index.constant";
 import { IKriteriaPerh } from "@/interfaces/api/perhitungan/query.interface";
 import { IConsidForm } from "@/interfaces/page/consid/index.interface";
 import { useGetListKriteria } from "@/services/kriteria/query";
-import { usePostCreateperhitungan } from "@/services/perhitungan/mutation";
+import {
+  useDeleteAllPerhitunganAPI,
+  useDeletePerhitunganAPI,
+  usePostCreateperhitungan,
+} from "@/services/perhitungan/mutation";
 import {
   useGetListPerhitungan,
   useGetPerhitunganAlt,
 } from "@/services/perhitungan/query";
 import { useGetListSubKriteria } from "@/services/sub-kriteria/query";
 import { useGetListUserAlternatif } from "@/services/user-alternatif/query";
-import { faAdd, faEraser, faSave } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAdd,
+  faEraser,
+  faSave,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Autocomplete, Button, Card, TextField } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
@@ -47,9 +56,12 @@ const ConsidPage = ({ role }: { role: string }) => {
     perPage: "9000",
   });
   const { data: dataAlt } = useGetPerhitunganAlt(watch("alternatif_id"));
+  const { mutate: mutateDelete } = useDeletePerhitunganAPI();
+  const { mutate: mutateDeleteAll } = useDeleteAllPerhitunganAPI();
   const { mutate: mutateCreate } = usePostCreateperhitungan();
   const { data: dataHasilPerhitungan, refetch: refetchHasilPerh } =
     useGetListPerhitungan(page);
+  const alternatifId = watch("alternatif_id");
 
   useEffect(() => {
     dataAlt?.data?.kriteria?.forEach((record) => {
@@ -75,6 +87,30 @@ const ConsidPage = ({ role }: { role: string }) => {
       }
     );
     mutateCreate(payload, {
+      onError: handleError,
+      onSuccess: (res) => {
+        refetchHasilPerh();
+        toast.success(res.message);
+        reset();
+        setActiveModal("");
+      },
+    });
+  };
+
+  const handleDeletebyId = () => {
+    mutateDelete(watch("alternatif_id"), {
+      onError: handleError,
+      onSuccess: (res) => {
+        refetchHasilPerh();
+        toast.success(res.message);
+        reset();
+        setActiveModal("");
+      },
+    });
+  };
+
+  const handleDeleteAll = () => {
+    mutateDeleteAll(undefined, {
       onError: handleError,
       onSuccess: (res) => {
         refetchHasilPerh();
@@ -172,7 +208,29 @@ const ConsidPage = ({ role }: { role: string }) => {
               >
                 Reset data
               </Button>
-              <div className="grow flex justify-end">
+              <Button
+                disabled={
+                  role !== "adm" ||
+                  (dataHasilPerhitungan?.data || []).length === 0 ||
+                  ["", null, undefined].includes(alternatifId?.toString())
+                }
+                startIcon={<FontAwesomeIcon size="sm" icon={faTrash} />}
+                color="error"
+                variant="contained"
+                onClick={() => setActiveModal(`modal-delete`)}
+              >
+                Hapus Perhitungan
+              </Button>
+              <div className="grow flex justify-end gap-3">
+                <Button
+                  disabled={role !== "adm"}
+                  startIcon={<FontAwesomeIcon size="sm" icon={faTrash} />}
+                  color="error"
+                  variant="contained"
+                  onClick={() => setActiveModal(`modal-delete`)}
+                >
+                  Hapus Semua Perhitungan
+                </Button>
                 <Button
                   startIcon={<FontAwesomeIcon icon={faSave} />}
                   type="submit"
@@ -233,6 +291,46 @@ const ConsidPage = ({ role }: { role: string }) => {
               Batal
             </Button>
             <Button color="success" onClick={handleCreate}>
+              Buat
+            </Button>
+          </div>
+        </div>
+      </BaseModal>
+
+      <BaseModal
+        name="modal-delete"
+        onClose={() => {
+          setActiveModal("");
+        }}
+        activeModal={activeModal}
+      >
+        <div>
+          <div>Apakah anda yakin untuk menghapus data alternatif ini?</div>
+          <div className="flex justify-end">
+            <Button onClick={closeModal} color="error">
+              Batal
+            </Button>
+            <Button color="success" onClick={handleDeletebyId}>
+              Buat
+            </Button>
+          </div>
+        </div>
+      </BaseModal>
+
+      <BaseModal
+        name="modal-delete-all"
+        onClose={() => {
+          setActiveModal("");
+        }}
+        activeModal={activeModal}
+      >
+        <div>
+          <div>Apakah anda yakin untuk menghapus semua data Alternatif?</div>
+          <div className="flex justify-end">
+            <Button onClick={closeModal} color="error">
+              Batal
+            </Button>
+            <Button color="success" onClick={handleDeleteAll}>
               Buat
             </Button>
           </div>

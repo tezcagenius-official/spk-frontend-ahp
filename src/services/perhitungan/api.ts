@@ -30,3 +30,15 @@ export const getPerhitunganAPI = async (params?: IGlobalPaginationParams) => {
     })
     .then((r) => r.data);
 };
+
+export const deletePerhitunganAPI = async (id_kriteria?: number) => {
+  return await satellite
+    .delete<IBaseAPIResponse>(`/api/perhitungan/${id_kriteria}`)
+    .then((r) => r.data);
+};
+
+export const deleteAllPerhitunganAPI = async () => {
+  return await satellite
+    .delete<IBaseAPIResponse>(`/api/perhitungan`)
+    .then((r) => r.data);
+};
