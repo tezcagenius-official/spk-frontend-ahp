@@ -1,5 +1,6 @@
 "use client";
 import { IPerbChriteriaTableMatrixParams } from "@/interfaces/components/tables/perb-chriteria.interface";
+import { rounder } from "@/utils/math.util";
 import {
   Paper,
   Table,
@@ -52,7 +53,7 @@ const TableMatrixPerbChriteria = ({
               </TableCell>
               {row.map((cell, i) => (
                 <TableCell key={`cell-${i}`} align="justify">
-                  {cell}
+                  {rounder(cell)}
                 </TableCell>
               ))}
             </TableRow>
@@ -62,7 +63,7 @@ const TableMatrixPerbChriteria = ({
             <TableCell align="justify">Total</TableCell>
             {total.map((t, i) => (
               <TableCell key={`cellsum-${i}`} align="justify">
-                {t}
+                {rounder(t)}
               </TableCell>
             ))}
           </TableRow>

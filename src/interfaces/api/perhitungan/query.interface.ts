@@ -25,6 +25,7 @@ export interface ISubKriteriaPerhitungan {
 export type IGetPerhitunganListResponse = IGetPerhitungan[];
 
 export type IGetPerhitungan = {
+  alternatif_id: number;
   nama: string;
   email: string;
   nomor_telpon: string;

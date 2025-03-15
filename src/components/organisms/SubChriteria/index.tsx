@@ -129,13 +129,13 @@ const SubChriteriaPage: React.FC = () => {
                 size="small"
                 options={dataKriteria?.data ?? []}
                 isOptionEqualToValue={(option, value) =>
-                  option.kriteria_id === value.kriteria_id
+                  +option.kriteria_id === +value.kriteria_id
                 }
-                inputValue={
-                  dataKriteria?.data?.find(
-                    (k) => k.kriteria_id === (getValues("kriteria_id") ?? 0)
-                  )?.nama_kriteria ?? ""
-                }
+                // inputValue={
+                //   dataKriteria?.data?.find(
+                //     (k) => k.kriteria_id === (getValues("kriteria_id") ?? 0)
+                //   )?.nama_kriteria ?? ""
+                // }
                 getOptionLabel={(option) => option?.nama_kriteria ?? ""}
                 renderInput={(params) => (
                   <TextField
@@ -150,8 +150,9 @@ const SubChriteriaPage: React.FC = () => {
                   />
                 )}
                 onChange={(_, value) => {
-                  if (value && value.kriteria_id)
+                  if (value && value.kriteria_id) {
                     setValue("kriteria_id", value?.kriteria_id);
+                  }
                 }}
               />
             )}

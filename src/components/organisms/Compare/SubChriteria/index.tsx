@@ -234,7 +234,7 @@ const CompSubChriteriaPage = () => {
         <TableMatrixPerbSubChriteriaNorm
           data={dataCalcKriteria?.data?.matriksNormalisasi ?? []}
           prioritas={dataCalcKriteria?.data?.prioritas ?? []}
-          header={dataListSubKriteria?.data ?? []}
+          header={dataDisplayCalcKriteri?.data ?? []}
         />
       </div>
 

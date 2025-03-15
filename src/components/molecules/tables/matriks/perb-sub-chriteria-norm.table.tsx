@@ -1,5 +1,6 @@
 "use client";
 import { IPerbSubChriteriaTableMatNormParams } from "@/interfaces/components/tables/perb-sub-chriteria.interface";
+import { rounder } from "@/utils/math.util";
 import {
   Paper,
   Table,
@@ -54,10 +55,10 @@ const TableMatrixPerbSubChriteriaNorm = ({
               </TableCell>
               {row.map((cell, icell) => (
                 <TableCell key={`cell-${i}-${icell}`} align="justify">
-                  {cell}
+                  {rounder(cell)}
                 </TableCell>
               ))}
-              <TableCell align="justify">{prioritas[i]}</TableCell>
+              <TableCell align="justify">{rounder(prioritas[i])}</TableCell>
             </TableRow>
           ))}
 
@@ -65,11 +66,11 @@ const TableMatrixPerbSubChriteriaNorm = ({
             <TableCell align="justify">Total</TableCell>
             {total.map((t, i) => (
               <TableCell key={`cellsum-${i}`} align="justify">
-                {t}
+                {rounder(t)}
               </TableCell>
             ))}
             <TableCell align="justify">
-              {prioritas.reduce((acc, n) => acc + n, 0)}
+              {rounder(prioritas.reduce((acc, n) => acc + n, 0))}
             </TableCell>
           </TableRow>
         </TableBody>

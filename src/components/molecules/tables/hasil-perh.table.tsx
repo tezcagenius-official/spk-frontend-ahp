@@ -1,8 +1,11 @@
 "use client";
 import { IGetPerhitungan } from "@/interfaces/api/perhitungan/query.interface";
 import { IPerhCompParams } from "@/interfaces/components/tables/perh-comp.interface";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Box,
+  IconButton,
   Pagination,
   Paper,
   Table,
@@ -25,6 +28,7 @@ const TableHasilPerhitungan: React.FC<IPerhCompParams> = ({
   data,
   pagination,
   onPageChange,
+  onDeleteData,
 }) => {
   const currentPage = pagination?.currentPage || 1;
   const totalPages = pagination?.lastPage || 1;
@@ -59,6 +63,22 @@ const TableHasilPerhitungan: React.FC<IPerhCompParams> = ({
       columnHelper.accessor("total_skor", {
         cell: (info) => info.getValue() ?? "-",
         header: "Total Skor",
+      }),
+      columnHelper.display({
+        id: "action",
+        header: "Action",
+        cell: ({ row }) => {
+          return (
+            <div className="flex items-center justify-center gap-3">
+              <IconButton
+                color="error"
+                onClick={() => onDeleteData?.(row.original)}
+              >
+                <FontAwesomeIcon size="sm" icon={faTrash} />
+              </IconButton>
+            </div>
+          );
+        },
       }),
     ];
 

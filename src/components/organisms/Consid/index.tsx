@@ -16,10 +16,12 @@ import {
   useGetListPerhitungan,
   useGetPerhitunganAlt,
 } from "@/services/perhitungan/query";
+import { useDownloadExcell } from "@/services/report/query";
 import { useGetListSubKriteria } from "@/services/sub-kriteria/query";
 import { useGetListUserAlternatif } from "@/services/user-alternatif/query";
 import {
   faAdd,
+  faDownload,
   faEraser,
   faSave,
   faTrash,
@@ -61,9 +63,11 @@ const ConsidPage = ({ role }: { role: string }) => {
   const { mutate: mutateCreate } = usePostCreateperhitungan();
   const { data: dataHasilPerhitungan, refetch: refetchHasilPerh } =
     useGetListPerhitungan(page);
-  const alternatifId = watch("alternatif_id");
+  const [alternatifId, setAlternatifId] = useState(0);
+  const { refetch } = useDownloadExcell();
 
   useEffect(() => {
+    remove();
     dataAlt?.data?.kriteria?.forEach((record) => {
       append({
         kriteria_id: record.kriteria_id,
@@ -98,7 +102,8 @@ const ConsidPage = ({ role }: { role: string }) => {
   };
 
   const handleDeletebyId = () => {
-    mutateDelete(watch("alternatif_id"), {
+    console.log("alternatifId", alternatifId);
+    mutateDelete(alternatifId, {
       onError: handleError,
       onSuccess: (res) => {
         refetchHasilPerh();
@@ -135,6 +140,10 @@ const ConsidPage = ({ role }: { role: string }) => {
     },
     [dataAlt, dataListSubKriteria]
   );
+
+  const handleDownload = () => {
+    refetch();
+  };
 
   return (
     <div className="flex gap-3 flex-col">
@@ -208,7 +217,7 @@ const ConsidPage = ({ role }: { role: string }) => {
               >
                 Reset data
               </Button>
-              <Button
+              {/* <Button
                 disabled={
                   role !== "adm" ||
                   (dataHasilPerhitungan?.data || []).length === 0 ||
@@ -220,9 +229,9 @@ const ConsidPage = ({ role }: { role: string }) => {
                 onClick={() => setActiveModal(`modal-delete`)}
               >
                 Hapus Perhitungan
-              </Button>
+              </Button> */}
               <div className="grow flex justify-end gap-3">
-                <Button
+                {/* <Button
                   disabled={role !== "adm"}
                   startIcon={<FontAwesomeIcon size="sm" icon={faTrash} />}
                   color="error"
@@ -230,6 +239,17 @@ const ConsidPage = ({ role }: { role: string }) => {
                   onClick={() => setActiveModal(`modal-delete`)}
                 >
                   Hapus Semua Perhitungan
+                </Button> */}
+                <Button
+                  startIcon={<FontAwesomeIcon icon={faDownload} />}
+                  type="button"
+                  onClickCapture={handleDownload}
+                  size="small"
+                  disabled={role !== "adm"}
+                  color="success"
+                  variant="contained"
+                >
+                  Export Hasil
                 </Button>
                 <Button
                   startIcon={<FontAwesomeIcon icon={faSave} />}
@@ -273,6 +293,10 @@ const ConsidPage = ({ role }: { role: string }) => {
               page: new_page.toString(),
             }));
           }}
+          onDeleteData={(data) => {
+            setAlternatifId(data.alternatif_id);
+            setActiveModal(`modal-delete`);
+          }}
           pagination={dataHasilPerhitungan?.meta}
         />
       </Card>
@@ -311,7 +335,7 @@ const ConsidPage = ({ role }: { role: string }) => {
               Batal
             </Button>
             <Button color="success" onClick={handleDeletebyId}>
-              Buat
+              Hapus
             </Button>
           </div>
         </div>

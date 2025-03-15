@@ -1,5 +1,6 @@
 "use client";
 import { IPerbSubChriteriaTableMatrixParams } from "@/interfaces/components/tables/perb-sub-chriteria.interface";
+import { rounder } from "@/utils/math.util";
 import {
   Paper,
   Table,
@@ -52,7 +53,7 @@ const TableMatrixPerbSubChriteria = ({
               </TableCell>
               {row.map((cell, icell) => (
                 <TableCell key={`cell-${i}-${icell}`} align="justify">
-                  {cell}
+                  {rounder(cell)}
                 </TableCell>
               ))}
             </TableRow>
@@ -62,7 +63,7 @@ const TableMatrixPerbSubChriteria = ({
             <TableCell align="justify">Total</TableCell>
             {total.map((t, i) => (
               <TableCell key={`cellsum-${i}`} align="justify">
-                {t}
+                {rounder(t)}
               </TableCell>
             ))}
           </TableRow>
