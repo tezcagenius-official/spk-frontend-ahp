@@ -1,16 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCalcKriteriaAPI, getKriteriaListAPI } from "./api";
 
-export const useGetCalcKriteria = () => {
-  return useQuery({
-    queryKey: ["getCalcKriteria"],
-    queryFn: () => getCalcKriteriaAPI().then((response) => response),
-  });
+export const useGetCalcKriteria = (divisi_id: number) => {
+    return useQuery({
+        queryKey: ["getCalcKriteria"],
+        queryFn: () =>
+            getCalcKriteriaAPI(divisi_id).then((response) => response),
+    });
 };
 
-export const useGetKriteriaCompList = () => {
-  return useQuery({
-    queryKey: ["getCalcKriteriaList"],
-    queryFn: () => getKriteriaListAPI().then((response) => response),
-  });
+export const useGetKriteriaCompList = (divisi_id: number) => {
+    return useQuery({
+        queryKey: ["getCalcKriteriaList", divisi_id],
+        queryFn: () =>
+            getKriteriaListAPI(divisi_id).then((response) => response),
+    });
 };
