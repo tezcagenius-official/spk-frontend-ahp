@@ -134,6 +134,7 @@ const ChriteriaPage = () => {
                                 {...register("divisi_id")}
                                 className="w-64"
                                 size="small"
+                                disabled={role === "adm"}
                                 options={
                                     dataListDivisi?.data ??
                                     ([] as IGetAllDivisiResponse)

@@ -118,7 +118,6 @@ const ConsidPage = ({ role }: { role: string }) => {
     };
 
     const handleDeletebyId = () => {
-        console.log("alternatifId", alternatifId);
         mutateDelete(alternatifId, {
             onError: handleError,
             onSuccess: (res) => {
@@ -253,22 +252,6 @@ const ConsidPage = ({ role }: { role: string }) => {
                                         );
                                 }}
                             />
-                            {/* <Button
-                                startIcon={<FontAwesomeIcon icon={faAdd} />}
-                                className="space-x-1"
-                                type="button"
-                                size="small"
-                                variant="contained"
-                                disabled={role !== "adm"}
-                                onClick={() => {
-                                    append({
-                                        kriteria_id: 0,
-                                        sub_kriteria_id: 0,
-                                    });
-                                }}
-                            >
-                                Tambah data
-                            </Button> */}
                             <Button
                                 startIcon={<FontAwesomeIcon icon={faEraser} />}
                                 className="h-10 space-x-1"
@@ -335,6 +318,7 @@ const ConsidPage = ({ role }: { role: string }) => {
 
             <Card>
                 <TableHasilPerhitungan
+                    disableAll={role !== "admin"}
                     data={dataHasilPerhitungan?.data ?? []}
                     onPageChange={(new_page) => {
                         setPage((prev) => ({

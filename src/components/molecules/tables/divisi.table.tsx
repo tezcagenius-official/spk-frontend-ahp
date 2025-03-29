@@ -46,9 +46,10 @@ const DivisiTable: React.FC<IDivisiTableParams> = ({
     const role = useCookies().get("role");
     const initialColumns = useMemo(() => {
         const baseColumn = [
-            columnHelper.accessor("divisi_id", {
-                cell: (info) => info.getValue(),
-                header: "ID Divisi",
+            columnHelper.display({
+                id: "index",
+                header: "No.",
+                cell: (info) => info.row.index + 1,
             }),
             columnHelper.accessor("nama_divisi", {
                 cell: (info) => info.getValue() ?? "-",

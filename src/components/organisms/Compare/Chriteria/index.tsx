@@ -80,6 +80,7 @@ const CompChriteriaPage = () => {
     const { data: dataKriteria } = useGetListKriteria(true, {
         page: "1",
         perPage: "9000",
+        divisi_id: watch("divisi_id"),
     });
     const { data: dataKriteriaCompList } = useGetKriteriaCompList(
         watch("divisi_id")
@@ -240,38 +241,47 @@ const CompChriteriaPage = () => {
                     </div>
                 </form>
             </Card>
+            {watch("divisi_id") ? (
+                <>
+                    <div className="space-y-2">
+                        <Typography variant="h5" className="!font-bold">
+                            Matrix
+                        </Typography>{" "}
+                        <TableMatrixPerbChriteria
+                            data={dataCalcKriteria?.data?.matriks ?? []}
+                            header={dataKriteria?.data ?? []}
+                        />
+                    </div>
 
-            <div className="space-y-2">
-                <Typography variant="h5" className="!font-bold">
-                    Matrix
-                </Typography>
-                <TableMatrixPerbChriteria
-                    data={dataCalcKriteria?.data?.matriks ?? []}
-                    header={dataKriteria?.data ?? []}
-                />
-            </div>
+                    <div className="space-y-2">
+                        <Typography variant="h5" className="!font-bold">
+                            Matrix Normalisasi
+                        </Typography>
+                        <TableMatrixPerbChriteriaNorm
+                            data={
+                                dataCalcKriteria?.data?.matriksNormalisasi ?? []
+                            }
+                            prioritas={dataCalcKriteria?.data?.prioritas ?? []}
+                            header={dataKriteria?.data ?? []}
+                        />
+                    </div>
 
-            <div className="space-y-2">
-                <Typography variant="h5" className="!font-bold">
-                    Matrix Normalisasi
-                </Typography>
-                <TableMatrixPerbChriteriaNorm
-                    data={dataCalcKriteria?.data?.matriksNormalisasi ?? []}
-                    prioritas={dataCalcKriteria?.data?.prioritas ?? []}
-                    header={dataKriteria?.data ?? []}
-                />
-            </div>
-
-            <div className="space-y-2">
-                <Typography variant="h5" className="!font-bold">
-                    Data Tambahan
-                </Typography>
-                <TableTambahan
-                    ci={dataCalcKriteria?.data?.CI ?? 0}
-                    cr={dataCalcKriteria?.data?.CR ?? 0}
-                    ri={dataCalcKriteria?.data?.RI ?? 0}
-                />
-            </div>
+                    <div className="space-y-2">
+                        <Typography variant="h5" className="!font-bold">
+                            Data Tambahan
+                        </Typography>
+                        <TableTambahan
+                            ci={dataCalcKriteria?.data?.CI ?? 0}
+                            cr={dataCalcKriteria?.data?.CR ?? 0}
+                            ri={dataCalcKriteria?.data?.RI ?? 0}
+                        />
+                    </div>
+                </>
+            ) : (
+                <div className="w-full flex justify-center items-center h-full text-neutral-500">
+                    Silahkan pilih divisi terlebih dahulu!
+                </div>
+            )}
 
             <BaseModal
                 name="modal-create"

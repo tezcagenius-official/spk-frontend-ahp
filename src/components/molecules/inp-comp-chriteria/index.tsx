@@ -1,18 +1,14 @@
 import { IInpCompChriteriaParams } from "@/interfaces/components/inp-create-chriteria/index.interface";
-import { faEraser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Autocomplete, IconButton, TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import React from "react";
 
 const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
     data: { id, kriteria1_id, kriteria2_id, nilai_perbandingan },
     datakriteria,
-    onRemoveList,
     register,
     i,
     onValueChange,
     disableAll = false,
-    disableRemove = false,
 }) => {
     return (
         <div className="mt-3">
@@ -24,7 +20,7 @@ const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
                 >
                     Kriteria {i + 1}
                 </h2>
-                <IconButton
+                {/* <IconButton
                     className="space-x-1"
                     type="button"
                     color="error"
@@ -32,14 +28,14 @@ const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
                     onClick={() => onRemoveList?.()}
                 >
                     <FontAwesomeIcon icon={faEraser} />
-                </IconButton>
+                </IconButton> */}
             </div>
             <div className="flex py-1 gap-1">
                 <Autocomplete
                     {...register(`perbandingan.${i}.kriteria1_id`)}
                     className="grow"
                     size="small"
-                    disabled={disableAll}
+                    disabled
                     options={datakriteria?.data ?? []}
                     isOptionEqualToValue={(option, value) =>
                         option.kriteria_id === value.kriteria_id
@@ -78,7 +74,7 @@ const InpCompChriteria: React.FC<IInpCompChriteriaParams> = ({
                     {...register(`perbandingan.${i}.kriteria2_id`)}
                     className="grow"
                     size="small"
-                    disabled={disableAll}
+                    disabled
                     options={datakriteria?.data ?? []}
                     isOptionEqualToValue={(option, value) =>
                         option.kriteria_id === value.kriteria_id

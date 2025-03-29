@@ -1,7 +1,5 @@
 import { IInpCompPerhParams } from "@/interfaces/components/inp-comp-perh/index.interface";
-import { faEraser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Autocomplete, IconButton, TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import React from "react";
 
 const InpCompPerh: React.FC<IInpCompPerhParams> = ({
@@ -10,10 +8,8 @@ const InpCompPerh: React.FC<IInpCompPerhParams> = ({
     datasubkriteria,
     i,
     register,
-    onRemoveList,
     onValueChange,
     disableAll = false,
-    disableRemove = false,
 }) => {
     return (
         <div className="mt-3">
@@ -25,7 +21,7 @@ const InpCompPerh: React.FC<IInpCompPerhParams> = ({
                 >
                     Kriteria {i + 1}
                 </h2>
-                <IconButton
+                {/* <IconButton
                     className="space-x-1"
                     type="button"
                     color="error"
@@ -33,14 +29,14 @@ const InpCompPerh: React.FC<IInpCompPerhParams> = ({
                     onClick={() => onRemoveList?.()}
                 >
                     <FontAwesomeIcon icon={faEraser} />
-                </IconButton>
+                </IconButton> */}
             </div>
             <div className="flex py-1 gap-1">
                 <Autocomplete
                     {...register(`penilaian.${i}.kriteria_id`)}
                     className="grow"
                     size="small"
-                    disabled={disableAll}
+                    disabled
                     options={datakriteria?.data ?? []}
                     isOptionEqualToValue={(option, value) =>
                         option.kriteria_id === value.kriteria_id

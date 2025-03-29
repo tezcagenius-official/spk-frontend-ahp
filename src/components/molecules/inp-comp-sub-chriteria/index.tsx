@@ -1,24 +1,20 @@
 import { IInpCompSubChriteriaParams } from "@/interfaces/components/inp-create-sub-chriteria/index.interface";
-import { faEraser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Autocomplete, IconButton, TextField } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import React from "react";
 
 const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
     data: { id, sub_kriteria1_id, sub_kriteria2_id, nilai_perbandingan },
     dataSubKriteria,
-    onRemoveList,
     register,
     i,
     onValueChange,
-    disableRemove = false,
     disableAll = false,
 }) => {
     return (
         <div className="mt-3">
             <div className="flex gap-2 items-center mb-1">
                 <h2 className="text-xl font-semibold">Sub Kriteria {i + 1}</h2>
-                <IconButton
+                {/* <IconButton
                     className="space-x-1"
                     type="button"
                     color="error"
@@ -26,7 +22,7 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
                     onClick={() => onRemoveList?.()}
                 >
                     <FontAwesomeIcon icon={faEraser} />
-                </IconButton>
+                </IconButton> */}
             </div>
             <div className="flex py-1 gap-1">
                 <Autocomplete
@@ -42,7 +38,7 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
                             (dk) => dk.sub_kriteria_id === sub_kriteria1_id
                         ) ?? (null as any) // eslint-disable-line
                     }
-                    disabled={disableAll}
+                    disabled
                     getOptionLabel={(option) =>
                         option?.nama_sub_kriteria ?? "-"
                     }
@@ -76,7 +72,7 @@ const InpCompSubChriteria: React.FC<IInpCompSubChriteriaParams> = ({
                     className="grow"
                     size="small"
                     options={dataSubKriteria?.data ?? []}
-                    disabled={disableAll}
+                    disabled
                     isOptionEqualToValue={(option, value) =>
                         option.sub_kriteria_id === value.sub_kriteria_id
                     }

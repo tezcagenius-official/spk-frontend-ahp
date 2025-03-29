@@ -21,8 +21,6 @@ export const useDownloadExcell = (divisi_id: number) => {
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 });
 
-                console.log("response.name", response.name);
-
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement("a");
                 document.body.appendChild(a);

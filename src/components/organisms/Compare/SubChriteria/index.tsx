@@ -6,7 +6,9 @@ import TableMatrixPerbSubChriteriaNorm from "@/components/molecules/tables/matri
 import TableMatrixPerbSubChriteria from "@/components/molecules/tables/matriks/perb-sub-chriteria.table";
 import TableTambahan from "@/components/molecules/tables/tambahan.table";
 import { compSubChriteriaBreadcrumb } from "@/constants/breadcrumb/index.constant";
+import { IGetAllDivisiResponse } from "@/interfaces/api/division/query.interface";
 import { ICreatePerbSubKriteriaRequest } from "@/interfaces/api/perb-sub-kriteria/mutate.interface";
+import { useGetListDivisi } from "@/services/division/query";
 import { useGetListKriteria } from "@/services/kriteria/query";
 import { usePostCreatePerbSubKriteria } from "@/services/perb-sub-kriteria/mutation";
 import {
@@ -69,6 +71,7 @@ const CompSubChriteriaPage = () => {
     const { data: dataListKriteria } = useGetListKriteria(true, {
         page: "1",
         perPage: "9000",
+        divisi_id: watch("divisi_id"),
     });
     const { data: dataListSubKriteria, refetch: refetchListSubKriteria } =
         useGetListSubKriteria({
@@ -84,6 +87,10 @@ const CompSubChriteriaPage = () => {
     const { data: dataDisplayCalcKriteri } = useGetDisplaySubKriteriaAPI(
         watch("kriteria_id") ?? 0
     );
+    const { data: dataListDivisi } = useGetListDivisi(true, {
+        page: "1",
+        perPage: "1000",
+    });
 
     const onCreateKriteria = () => {
         const data = getValues().perbandingan.map((p) => ({
@@ -137,9 +144,47 @@ const CompSubChriteriaPage = () => {
                 >
                     <div className="flex gap-2 mb-5">
                         <Autocomplete
+                            {...register("divisi_id")}
+                            className="w-64"
+                            size="small"
+                            options={
+                                dataListDivisi?.data ??
+                                ([] as IGetAllDivisiResponse)
+                            }
+                            isOptionEqualToValue={(option, value) =>
+                                option.divisi_id === value.divisi_id
+                            }
+                            disableClearable
+                            value={
+                                dataListDivisi?.data?.find(
+                                    (dk) => dk.divisi_id === watch("divisi_id")
+                                ) ?? (null as any) // eslint-disable-line
+                            }
+                            getOptionLabel={(option) =>
+                                option?.nama_divisi ?? ""
+                            }
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Divisi"
+                                    slotProps={{
+                                        input: {
+                                            ...params.InputProps,
+                                            type: "search",
+                                        },
+                                    }}
+                                />
+                            )}
+                            onChange={(_, value) => {
+                                if (value && value.divisi_id)
+                                    setValue("divisi_id", value.divisi_id);
+                            }}
+                        />
+                        <Autocomplete
                             {...register("kriteria_id")}
                             className="w-64"
                             size="small"
+                            disabled={!watch("divisi_id")}
                             options={dataListKriteria?.data ?? []}
                             isOptionEqualToValue={(option, value) =>
                                 option.kriteria_id === value.kriteria_id

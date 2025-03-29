@@ -52,9 +52,10 @@ export const ChriteriaTable: React.FC<IChriteriaParams> = ({
 
     const initialColumns = useMemo(() => {
         const baseColumn = [
-            columnHelper.accessor("kriteria_id", {
-                cell: (info) => info.getValue(),
-                header: "ID Kriteria",
+            columnHelper.display({
+                id: "index",
+                header: "No.",
+                cell: (info) => info.row.index + 1,
             }),
             columnHelper.accessor("nama_kriteria", {
                 cell: (info) => info.getValue() ?? "-",

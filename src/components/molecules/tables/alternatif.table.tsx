@@ -53,9 +53,10 @@ const AlternatifTable: React.FC<IAlternatifParams> = ({
     const role = useCookies().get("role");
     const initialColumns = useMemo(() => {
         const baseColumn = [
-            columnHelper.accessor("alternatif_id", {
-                cell: (info) => info.getValue(),
-                header: "ID Alternatif",
+            columnHelper.display({
+                id: "index",
+                header: "No.",
+                cell: (info) => info.row.index + 1,
             }),
             columnHelper.accessor("nama", {
                 cell: (info) => info.getValue() ?? "-",
