@@ -12,7 +12,7 @@ export const useGetListUserAlternatif = (params?: IGetAlternatifParams) => {
 
 export const useGetDetailAlternatif = (id: number) => {
     return useQuery({
-        queryKey: ["getDetailUserAlternatif"],
+        queryKey: ["getDetailUserAlternatif", id],
         queryFn: () => getDetailAlternatifAPI(id).then((response) => response),
     });
 };

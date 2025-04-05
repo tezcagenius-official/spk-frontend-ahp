@@ -3,7 +3,7 @@ import { getCalcKriteriaAPI, getKriteriaListAPI } from "./api";
 
 export const useGetCalcKriteria = (divisi_id: number) => {
     return useQuery({
-        queryKey: ["getCalcKriteria"],
+        queryKey: ["getCalcKriteria", JSON.stringify(divisi_id)],
         queryFn: () =>
             getCalcKriteriaAPI(divisi_id).then((response) => response),
     });
@@ -11,7 +11,7 @@ export const useGetCalcKriteria = (divisi_id: number) => {
 
 export const useGetKriteriaCompList = (divisi_id: number) => {
     return useQuery({
-        queryKey: ["getCalcKriteriaList", divisi_id],
+        queryKey: ["getCalcKriteriaList", JSON.stringify(divisi_id)],
         queryFn: () =>
             getKriteriaListAPI(divisi_id).then((response) => response),
     });

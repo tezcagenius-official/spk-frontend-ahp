@@ -3,7 +3,7 @@ import { getReportExcell } from "./api";
 
 export const useDownloadExcell = (divisi_id: number) => {
     return useQuery({
-        queryKey: ["download excell"],
+        queryKey: ["download excell", divisi_id],
         queryFn: () =>
             getReportExcell(divisi_id).then((res) => {
                 const response = JSON.parse(res);
